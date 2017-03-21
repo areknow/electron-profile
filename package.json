@@ -1,6 +1,6 @@
 {
-  "name": "app",
-  "productName": "App",
+  "name": "Pro-File",
+  "productName": "Pro-File",
   "version": "0.0.0",
   "description": "",
   "license": "MIT",
@@ -13,7 +13,7 @@
   "scripts": {
     "test": "xo",
     "start": "electron .",
-    "build": "electron-packager . --out=dist --asar --overwrite --all"
+    "build": "electron-packager . --out=dist --asar --overwrite "
   },
   "keywords": [
     "electron-app",

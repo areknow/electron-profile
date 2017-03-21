@@ -2,30 +2,34 @@ html,
 body {
   padding: 0;
   margin: 0;
-}
-
-body {
   font-family: -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
-  header {
-    position: absolute;
-    width: 500px;
-    height: 250px;
-    top: 50%;
-    left: 50%;
-    margin-top: -125px;
-    margin-left: -250px;
-    text-align: center;
-  }
-  header h1 {
-    font-size: 60px;
-    font-weight: 100;
-    margin: 0;
-    padding: 0;
-  }
+}
+:not(input):not(textarea),
+:not(input):not(textarea)::after,
+:not(input):not(textarea)::before {
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+input, button, textarea, :focus {
+  outline: none;
 }
 
 
 
+
+
+//.title {
+//  position: absolute;
+//  top: 0;
+//  z-index: 2;
+//  font-size: 10px;
+//  display: block;
+//  width: 100%;
+//  text-align: center;
+//  color: grey;
+//  margin-top: 13px;
+//}
 #drag-file {
   -webkit-app-region: drag;
   background-color: #f0f0f0;
@@ -35,14 +39,18 @@ body {
   width:100%;
   height:100%;
   display: block;
-  padding-top: 20px;
   .drag-zone {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
     width: 300px;
     height: 300px;
     border-radius: 20px;
     border: 10px dotted #cecece; 
     margin: auto;
-    margin-top: 25px;
     color: #626771;
     .inner {
       padding-top: 80px;
