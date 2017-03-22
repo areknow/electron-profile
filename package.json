@@ -20,7 +20,12 @@
     "electron"
   ],
   "dependencies": {
-    "electron-debug": "^1.0.0"
+    "decompress-zip": "^0.3.0",
+    "electron-debug": "^1.1.0",
+    "fs-extra": "^2.1.2",
+    "glob": "^7.1.1",
+    "readdirp": "^2.1.0",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
     "devtron": "^1.1.0",

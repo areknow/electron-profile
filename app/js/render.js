@@ -1,20 +1,31 @@
 /* todo
 *
 * - make sure only zip archive is accepted
+* - delete tmp folder
+* - create drag over color change class
+*
+*
 *
 *
 */
 
 
+
 (function () {
   
-  var profiles = [];
+  //delarations
+  var collection = []
   
+//  openModal();
+  
+  
+  
+  //find out where the user data is and create the temp path
   function getTempPath() {
     const {app} = require('electron').remote;
     var tempPath = app.getPath('userData')+"/tmp";
     return tempPath;
-  }
+  } 
   
   
   
@@ -27,15 +38,13 @@
     e.preventDefault();
     for (let f of e.dataTransfer.files) {
       uncompress(f.path, getTempPath());
-//      openModal()
-      getSystemProfile();
     }
     return false;
   };
   
   
   
-  //double click the window to pick a file
+  //double click the window to pick an archive and decompress it
   var app = require('electron').remote;
   var dialog = app.dialog;
   document.getElementById("drag-file").addEventListener("dblclick", () => {
@@ -58,13 +67,14 @@
   function uncompress(ZIP_FILE_PATH, DESTINATION_PATH) {
     var unzipper = new DecompressZip(ZIP_FILE_PATH);
     unzipper.on('progress', function (fileIndex, fileCount) {//extraction progress
-//      console.log('Extracted file ' + (fileIndex + 1) + ' of ' + fileCount);
+//      alert('Extracted file ' + (fileIndex + 1) + ' of ' + fileCount);
     });
     unzipper.on('extract', function (log) {//extracting completed sucessfully
-//      console.log('Finished extracting', log);
+//      alert('Finished extracting', log);
+      getSystemProfile();
     });
     unzipper.on('error', function (err) {//error event listener
-//      console.log('Caught an error', err);
+//      alert('Caught an error', err);
     });
     unzipper.extract({ //unzip
       path: DESTINATION_PATH
@@ -75,21 +85,116 @@
   
   //get the system profile names and locations
   function getSystemProfile() {
-    
+    var profilePaths = [];
     var readdirp = require('readdirp'); 
-    readdirp({ root: getTempPath()+"/Server", fileFilter: '*.profile.xml'}, function (errors, res) {
-      if (errors) {
-        errors.forEach(function (err) {
-          console.error('Error: ', err);
+    var glob = require("glob")
+    glob(getTempPath()+"/Server/*/*/*/profiles", function (er, files) {
+      readdirp({ root: files[0], fileFilter: '*.profile.xml'}, function (errors, res) {
+        if (errors) {
+          errors.forEach(function (err) {
+            console.error('Error: ', err);
+          });
+        }
+        $.each(res.files, function(index,value) {
+        if (value.name !== "Monitoring.profile.xml" && 
+            value.name !== "dynaTrace Self-Monitoring.profile.xml") {
+          profilePaths.push({name:value.name,path:value.fullPath})
+        }
         });
-      }
-      $.each(res.files, function( index, value ) {
-        if (value.name !== "Monitoring.profile.xml" && value.name !== "dynaTrace Self-Monitoring.profile.xml") {
-          profiles.push(value.path)
+        if (!Array.isArray(profilePaths) || !profilePaths.length) {
+          console.log('array is empty') // throw error to user 'no profiles found'
+        } else {
+          $.each(profilePaths, function(index,value) {
+            var profileObject = parseXML(value.path)
+//            console.log(profileObject.profile)
+            compareMeasuresToDashboards(profileObject)
+          });
+        }
+      });
+    })
+  } 
+  
+  
+  
+  
+  //parse the system profile and return a list of measures
+  function parseXML(path) {
+    var obj = {};
+    var fs = require('fs'),
+    xml2js = require('xml2js');
+    var parser = new xml2js.Parser();
+    var data = fs.readFileSync(path, 'ascii');
+    var measures = []
+    var fileName = path.split("/")[path.split("/").length - 1];
+    parser.parseString(data, function (err, result) {
+      $.each(result.dynatrace.systemprofile[0].measures[0].measure, function(index,value) {
+        if (value.$.userdefined == "true") {
+          if (value.$.measuretype !== "TransactionMeasure"
+             && value.$.measuretype !== "ErrorDetectionMeasure"
+             && value.$.measuretype !== "ViolationMeasure"
+             && value.$.measuretype !== "MonitorMeasure"
+             && value.$.measuretype !== "JmxMeasure"
+             && value.$.measuretype !== "ApiMeasure"
+             && value.$.measuretype !== "PmiMeasure"
+             && value.$.measuretype !== "WebSphereConnectionPool"
+             && value.$.measuretype !== "ErrorDetectionMeasure") {
+            measures.push(value.$.id);
+          }
         }
       });
     });
-    console.log(profiles)
+    obj = {
+      profile: {
+        name: fileName,
+        path: path,
+        measures: measures
+      }
+    }
+    return obj;
+  }
+  
+  
+  
+  function compareMeasuresToDashboards(profileObject) {
+    
+    console.log(profileObject)
+    
+    var glob = require("glob")
+    glob(getTempPath()+"/Server/*/*/*/dashboards/*.xml", function (er, files) {
+      var fs = require('fs-extra');
+      $.each(files, function(index,filePath) {
+        fs.readFile(filePath, function (err, data) {
+          if (err) throw err;
+          $.each(profileObject.profile.measures.removeDuplicates(), function(index,measure) {
+//            console.log("String"+(data.indexOf(measure)>-1 ? " " : " not ")+"found");
+            if (data.indexOf(measure)>-1) {
+              console.log('string found')
+            } else {
+              console.log('string not found')
+            }
+          })
+        });
+      })
+    })
+    
+    
+    
+//    var glob = require("glob")
+//    glob(getTempPath()+"/Server/*/*/*/dashboards", function (er, files) {
+//    var findInFiles = require('find-in-files');
+//      $.each(profileObject.profile.measures.removeDuplicates(), function(index,value) {
+//        findInFiles.find(value, files[0])
+//        .then(function(results) {
+//          for (var result in results) {
+//            var res = results[result];
+//            console.log(
+//            'found "' + res.matches[0] + '" ' + res.count
+//            + ' times in "' + result + '"'
+//            );
+//          }
+//        });
+//      });
+//    })
   }
   
   
@@ -99,7 +204,11 @@
     const BrowserWindow = require('electron').remote.BrowserWindow
     const path = require('path')
     const modalPath = path.join('file://', __dirname, 'modal.html')
-    let win = new BrowserWindow({ width: 400, height: 720 })
+    let win = new BrowserWindow({ 
+      width: 400, 
+      height: 720,
+      'minWidth': 300,
+    })
     win.on('close', function () { win = null })
     win.loadURL(modalPath)
     win.show()
@@ -107,3 +216,17 @@
   
   
 })();
+
+
+
+
+
+
+
+
+
+Array.prototype.removeDuplicates = function () {
+  return this.filter(function (item, index, self) {
+    return self.indexOf(item) == index;
+  });
+};

@@ -14,6 +14,11 @@ let mainWindow;
 function onClosed() {
   // dereference the window
   mainWindow = null;
+  
+  //delete the temporary folder (not working on build)
+  var fs = require('fs-extra')
+  fs.removeSync(app.getPath('userData')+"/tmp");
+  console.log('>> cleanup done')
 }
 
 function createMainWindow() {
