@@ -28,12 +28,6 @@ function createMainWindow() {
     title: "Pro-File",
     resizable: false,
     fullscreen: false,
-//    frame: false,
-//    titleBarStyle: 'hidden',
-//    resizable: false,
-//    titleBarStyle: 'hidden-inset',
-//    transparent: true, frame: false,
-//    'standard-window': false
   });
   win.setTitle(require('./package.json').name);
   win.loadURL(`file://${__dirname}/app/index.html`);
@@ -55,3 +49,28 @@ app.on('activate', () => {
 app.on('ready', () => {
   mainWindow = createMainWindow();
 });
+
+
+
+//receive the package from the render process and create modal
+const ipc = require('electron').ipcMain
+ipc.on('asynchronous-message', function (event, arg) {
+  createModalWindow(arg);
+})
+//create new modals for each system profile
+function createModalWindow(arg) {
+  var path = require('path')
+  var modalPath = path.join('file://', __dirname, 'app/modal.html')
+  var modal = new electron.BrowserWindow({
+    width: 400,
+    height: 720,
+    'minWidth': 300,
+  });
+  modal.on('close', function () { modal = null })
+  modal.loadURL(modalPath)
+  modal.show()
+  //pass argument values to the new modal
+  modal.webContents.on('did-finish-load', () => {
+    modal.webContents.send('ping', arg)
+  })
+}

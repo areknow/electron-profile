@@ -148,6 +148,9 @@ input, button, textarea, :focus {
         background: #d7d7d7;
       }
     }
+    .no-border {
+      border-right: none;
+    }
     .selected {
       svg path {
         fill: #4242a8;
