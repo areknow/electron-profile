@@ -1,3 +1,5 @@
+'use strict';
+
 (function () {
   
   
@@ -20,27 +22,15 @@
   }
   
   
+  $('#modal').on('click', 'li', function() {
+    const clipboard = require('electron').clipboard
+    clipboard.writeText($(this).text())
+  })
+  
+  
+
+
+  
 })();
 
 
-//function makeTimeDiv(drop, date, enabled, sessionTime, sessionDate, sessionId, sessionName, sessionCapacity) {
-//  if (enabled) {
-//    return $('<div/>', {
-//      "class": 'time tooltip',
-//      "data-time": sessionTime,
-//      "data-date": sessionDate,
-//      "data-id": sessionId,
-//      "data-type": sessionName,
-//      "title": 'remaining seats: ' + sessionCapacity,
-//      "text": sessionTime
-//    }).appendTo(drop);
-//  } else {
-//    return $('<div/>', {
-//      "class": 'time time-disabled tooltip',
-//      "text": sessionTime
-//    }).appendTo(drop);
-//  }
-//}
-//
-//$("<li>").append(
-//    $("<div>", {class: "col-row"}).append(

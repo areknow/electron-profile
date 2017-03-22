@@ -169,6 +169,9 @@ input, button, textarea, :focus {
       span {
         padding: 10px;
       }
+      &:active {
+background: #ededf7;;
+      }
     }
   } 
 }

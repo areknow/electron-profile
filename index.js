@@ -73,4 +73,9 @@ function createModalWindow(arg) {
   modal.webContents.on('did-finish-load', () => {
     modal.webContents.send('ping', arg)
   })
+  
+  
 }
+
+
+
