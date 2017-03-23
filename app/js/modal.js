@@ -1,5 +1,3 @@
-'use strict';
-
 (function () {
   
   //populate lists
@@ -50,6 +48,9 @@
   
   
   
+  
+  
+  //click to copy on a list item
   $('#modal').on('click', 'li', function() {
     const clipboard = require('electron').clipboard
     clipboard.writeText($(this).text())
@@ -57,7 +58,7 @@
   
   
   
-  
+  //nav button functions
   $('.button-1').click(function() {
     $('.section-1').fadeIn(200)
     $('.section-2').fadeOut(200)
@@ -81,6 +82,25 @@
   })
 
   
+  
 })();
 
+
+function exportUnusedMeasureList() {
+  var app = require('electron').remote; 
+  var dialog = app.dialog;
+  dialog.showSaveDialog(function (fileName) {
+    if (fileName === undefined){
+      console.log("You didn't save the file");
+      return;
+    } 
+    var fs = require('fs-extra');
+    var content = "1st line text" +"\n" + "2nd line text";
+    fs.writeFile(fileName+".txt", content, function (err) {
+      if(err){
+        alert("An error ocurred creating the file "+ err.message)
+      }
+    });
+  });
+}
 

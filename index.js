@@ -19,7 +19,8 @@ function createMainWindow() {
     height: 400,
     title: "Pro-File",
     resizable: false,
-    backgroundColor: '#f0f0f0'
+    backgroundColor: '#f0f0f0',
+    icon: __dirname + '/assets/icons/png/64x64.png'
   });
   win.setTitle(require('./package.json').name);
   win.loadURL(`file://${__dirname}/app/index.html`);
@@ -50,11 +51,6 @@ ipc.on('clear-tmp', function (event, arg) {
   rimraf(app.getPath('userData')+'/tmp', function () { 
     console.log('>> cleanup done'); 
   });
-//  setTimeout(function(){ //hacky
-//    var fs = require('fs-extra')
-//    fs.removeSync(app.getPath('userData')+"/tmp");
-//    console.log('>> cleanup done')
-//  }, 1000);
 })
 
 //receive the package from the render process and create modal
