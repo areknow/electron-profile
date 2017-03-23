@@ -4,7 +4,6 @@
 html,
 body {
   height: 100%;
-//  overflow: hidden;
   padding: 0;
   margin: 0;
 //  font-family: -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
@@ -99,7 +98,7 @@ ul {
       padding: 10px;
     }
     &:active {
-      background: #ededf7;;
+      background: #e5f2fa;
     }
     &:last-child {
       border: none;
@@ -202,6 +201,7 @@ ul {
         width: 100%;
         top: 0;
         background: #efefef;
+        color: grey;
         font-size: 8px;
         font-weight: lighter;
         padding: 4px;

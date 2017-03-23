@@ -1,9 +1,9 @@
 /* todo
 *
 * - make sure only zip archive is accepted
-* - delete tmp folder
+* - delete tmp folder (command quit throws error on modal)
 * - create drag over color change class
-*
+* - errors
 *
 *
 *

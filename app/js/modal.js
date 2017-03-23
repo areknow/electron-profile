@@ -49,12 +49,17 @@
     ).appendTo($('#modal .section-2 .inner-3 ul'));
   }
   
+  
+  
+  
   $('#modal').on('click', 'li', function() {
     const clipboard = require('electron').clipboard
     clipboard.writeText($(this).text())
   })
   
-  //optimize this
+  
+  
+  
   $('.button-1').click(function() {
     $('.section-1').fadeIn(200)
     $('.section-2').fadeOut(200)

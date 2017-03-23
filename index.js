@@ -4,7 +4,7 @@ const app = electron.app;
 
 //console.log(app.getPath('userData'))
 
-require('electron-debug')({showDevTools: true});
+//require('electron-debug')({showDevTools: true});
 
 
 
@@ -58,7 +58,9 @@ ipc.on('open-modal', function (event, arg) {
   createModalWindow(arg);
 })
 //create new modals for each system profile
+var count = 0;
 function createModalWindow(arg) {
+  var winMod = count*20
   var path = require('path')
   var modalPath = path.join('file://', __dirname, 'app/modal.html')
   var modal = new electron.BrowserWindow({
@@ -69,13 +71,13 @@ function createModalWindow(arg) {
   });
   modal.on('close', function () { modal = null })
   modal.loadURL(modalPath)
+  modal.setPosition(100+winMod, 50+winMod)
   modal.show()
   //pass argument values to the new modal
   modal.webContents.on('did-finish-load', () => {
     modal.webContents.send('ping', arg)
   })
-  
-  
+  count++;
 }
 
 
