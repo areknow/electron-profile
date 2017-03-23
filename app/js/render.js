@@ -1,24 +1,5 @@
-/* todo
-*
-* - make sure only zip archive is accepted
-* - errors
-* - progress states
-*
-*
-*/
-
-
-
-
-
-
 (function () {
 
-  
-
-  
-  
-  
   //drag the archive in and decompress it
   var holder = document.getElementById('drag-file');
   holder.ondragover = () => { 
@@ -36,10 +17,10 @@
     for (let f of e.dataTransfer.files) {
       console.log('>> archive dragged into window')
       uncompress(f.path, getTempPath());
-//      showSpinner(true)
     }
     return false;
   };
+  
   
   
   
@@ -56,33 +37,35 @@
       } else {
         console.log('>> archive added via dialog')
         uncompress(fileNames[0], getTempPath());
-//        showSpinner(true)
       }
     });          
   }, false);
   
   
   
+  
   //decompress the zip file
   var DecompressZip = require('decompress-zip');
   function uncompress(ZIP_FILE_PATH, DESTINATION_PATH) {
-    updateStatus('Decompressing archive..')
-    var unzipper = new DecompressZip(ZIP_FILE_PATH);
-    unzipper.on('progress', function (fileIndex, fileCount) {//extraction progress
-//      alert('Extracted file ' + (fileIndex + 1) + ' of ' + fileCount);
-    });
-    unzipper.on('extract', function (log) {//extracting completed sucessfully
-//      alert('Finished extracting', log);
-      console.log('>> archive extracted to '+DESTINATION_PATH)
-      getSystemProfile();
-    });
-    unzipper.on('error', function (err) {//error event listener
-//      alert('Caught an error', err);
-    });
-    unzipper.extract({ //unzip
-      path: DESTINATION_PATH
-    });
+    if (ZIP_FILE_PATH.split('.').pop() == "zip") {
+      updateStatus('Extracting archive..')
+      var unzipper = new DecompressZip(ZIP_FILE_PATH);
+      //extraction progress
+      unzipper.on('progress', function (fileIndex, fileCount) {});
+      //extracting completed sucessfully
+      unzipper.on('extract', function (log) {
+        console.log('>> archive extracted to '+DESTINATION_PATH)
+        getSystemProfile();
+      });
+      //error event listener
+      unzipper.on('error', function (err) { alert('Caught an error', err); });
+      //unzip
+      unzipper.extract({ path: DESTINATION_PATH });
+    } else {
+      alert('Only .zip archives are accepted. Try again.')
+    }
   }
+  
   
   
   
@@ -96,26 +79,27 @@
     readdirp({ root: files[0], fileFilter: '*.profile.xml'}, function (errors, res) {
       if (errors) {
         errors.forEach(function (err) {
-          console.error('Error: ', err);
+          alert('Error: ', err);
         });
+        resetApp()
       }
       //exclude the built in profiles
       $.each(res.files, function(index,value) {
-//        if (value.name !== "Monitoring.profile.xml" && 
-//            value.name !== "dynaTrace Self-Monitoring.profile.xml") {
+        if (value.name !== "Monitoring.profile.xml" && 
+            value.name !== "dynaTrace Self-Monitoring.profile.xml") {
           profilePaths.push({name:value.name,path:value.fullPath})
-//        }
+        }
       });
       if (!Array.isArray(profilePaths) || !profilePaths.length) {
-        console.log('array is empty') // throw error to user 'no profiles found'
+        alert('No system profiles found, please verify you packaged all system files in your support archive.')
+        resetApp()
       } else {
         console.log('>> '+profilePaths.length+' system profile(s) extracted')
         $.each(profilePaths, function(index,value) {
           var profileObject = parseXML(value.path)
           compareMeasuresToDashboards(profileObject)
         });
-        clearTempDir()
-        updateStatus('Drop Support Archive')
+        resetApp()
       }
     });
   } 
@@ -135,6 +119,11 @@
     var measuresFromIncidentsAndTransactions = []
     var fileName = path.split("/")[path.split("/").length - 1];
     parser.parseString(data, function (err, result) {
+      if (err) {
+        errors.forEach(function (err) {
+          alert('Error: ', err);
+        });
+      }
       $.each(result.dynatrace.systemprofile[0].measures[0].measure, function(index,value) {
         if (value.$.userdefined == "true") {
           if (value.$.measuretype !== "TransactionMeasure"
@@ -150,13 +139,13 @@
           }
         }
       });
-//      //find all the measures that are used in incidents
+      //find all the measures that are used in incidents
       $.each(result.dynatrace.systemprofile[0].incidentrules[0].incidentrule, function(index,value) {
         if (typeof value.conditions !== "undefined") {
           measuresFromIncidentsAndTransactions.push(value.conditions[0].condition[0].$.refmeasure);
         }
       })
-//      //find all the measures used in user defined business transactions
+      //find all the measures used in user defined business transactions
       $.each(result.dynatrace.systemprofile[0].transactions[0].transaction, function(index,value) {
         if (value.$.subscriptiontype == 'userdefined') {
           //find measures used in BT filters
@@ -250,21 +239,7 @@
     //message the main process and send the package
     const ipc = require('electron').ipcRenderer
     ipc.send('open-modal', args)
-//    showSpinner(false)
   }
-  
-  
-  
-  
-//  function showSpinner(state) {
-//    if (state == true) {
-//      $('#drag-file .isSpinning').show();
-//      $('#drag-file .isNotSpinning').hide();
-//    } else {
-//      $('#drag-file .isSpinning').hide();
-//      $('#drag-file .isNotSpinning').show();
-//    }
-//  }
   
   
   
@@ -294,18 +269,25 @@
   }
   
   
+  
+  
+  //reset app state
+  function resetApp() {
+    clearTempDir()
+    updateStatus('Drop Support Archive')
+  }
+  
+  
+  
+  //removes duplicate entries from arrays
+  Array.prototype.removeDuplicates = function () {
+    return this.filter(function (item, index, self) {
+      return self.indexOf(item) == index;
+    });
+  };
+  
 })();
 
-
-
-
-
-
-
-
-//removes duplicate entries from arrays
-Array.prototype.removeDuplicates = function () {
-  return this.filter(function (item, index, self) {
-    return self.indexOf(item) == index;
-  });
-};
+  
+  
+  
