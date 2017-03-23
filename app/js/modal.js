@@ -10,17 +10,44 @@
       title.innerHTML = value.name
     })
     $.each(message.unusedMeasures, function(index,value) {
-      populateList(value)
+      populateUnusedMeasureList(value)
+      $('#modal .section-1 .inner .count').text(message.unusedMeasures.length)
+    })
+    $.each(message.profile.profile.allMeasures, function(index,value) {
+      populateAllMeasuresList(value)
+      $('#modal .section-2 .inner-1 .count').text(message.profile.profile.allMeasures.length)
+    })
+    $.each(message.profile.profile.transactions, function(index,value) {
+      populateTransactionsList(value)
+      $('#modal .section-2 .inner-2 .count').text(message.profile.profile.transactions.length)
+    })
+    $.each(message.dashboards, function(index,value) {
+      populateDashboardsList(value)
+      $('#modal .section-2 .inner-3 .count').text(message.dashboards.length)
     })
   })
   
   
-  function populateList(value) {
+  function populateUnusedMeasureList(value) {
     return $('<li>',{class:'truncate-ellipsis'}).append(
       $('<span>', {text: value})
-    ).appendTo($('#modal ul'));
+    ).appendTo($('#modal .section-1 ul'));
   }
-  
+  function populateAllMeasuresList(value) {
+    return $('<li>',{class:'truncate-ellipsis'}).append(
+      $('<span>', {text: value})
+    ).appendTo($('#modal .section-2 .inner-1 ul'));
+  }
+  function populateTransactionsList(value) {
+    return $('<li>',{class:'truncate-ellipsis'}).append(
+      $('<span>', {text: value})
+    ).appendTo($('#modal .section-2 .inner-2 ul'));
+  }
+  function populateDashboardsList(value) {
+    return $('<li>',{class:'truncate-ellipsis'}).append(
+      $('<span>', {text: value})
+    ).appendTo($('#modal .section-2 .inner-3 ul'));
+  }
   
   $('#modal').on('click', 'li', function() {
     const clipboard = require('electron').clipboard

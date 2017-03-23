@@ -125,6 +125,7 @@
     var parser = new xml2js.Parser();
     var data = fs.readFileSync(path, 'ascii');
     var measures = []
+    var transactions = []
     var measuresFromIncidentsAndTransactions = []
     var fileName = path.split("/")[path.split("/").length - 1];
     parser.parseString(data, function (err, result) {
@@ -171,22 +172,22 @@
             })
           }
         }
+        //save all business transaction names for the profileObject
+        transactions.push(value.$.id)
       })
     });
     var deduplicatedMeasures = measures.removeDuplicates();
     var cleanMeasures = deduplicatedMeasures.filter(function(val) {
       return measuresFromIncidentsAndTransactions.indexOf(val) == -1;
     });
-//    console.log('>> all measures: '+measures.length)
-//    console.log('>> deduplicated measures: '+deduplicatedMeasures.length)
-//    console.log('>> clean measures: '+cleanMeasures.length)
-    //prepare object and return it to be compared to dashboards next
+    //build the object and return it
     obj = {
       profile: {
         name: fileName,
         path: path,
         cleanMeasures: cleanMeasures,
-        allMeasures: measures
+        allMeasures: deduplicatedMeasures,
+        transactions: transactions.removeDuplicates()
       }
     }
     console.log('>> system profile '+obj.profile.name+' parsed and measures saved')
@@ -205,8 +206,20 @@
   function compareMeasuresToDashboards(profileObject) {
     var unusedMeasures = []
     var usedMeasures = []
+    var dashboards = []
     var glob = require("glob")
     files = glob.sync(getTempPath()+"/Server/*/*/*/dashboards/*.xml");
+    
+    
+    //save all the dashboard names to an array
+    $.each(files, function(index,path) {
+      var fileName = path.split("/")[path.split("/").length - 1];
+      dashboards.push(fileName)
+    })
+    
+    
+    
+    
     var fs = require('fs-extra');
     //iterate over the measures from the profile object
     $.each(profileObject.profile.cleanMeasures, function(index,measure) {
@@ -228,7 +241,8 @@
     //create the package to send to the modal
     var args = {
       profile: profileObject,
-      unusedMeasures: unusedMeasures
+      unusedMeasures: unusedMeasures,
+      dashboards: dashboards
     }
     //message the main process and send the package
     const ipc = require('electron').ipcRenderer

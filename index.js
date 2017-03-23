@@ -64,7 +64,8 @@ function createModalWindow(arg) {
   var modal = new electron.BrowserWindow({
     width: 400,
     height: 721,
-    'minWidth': 300,
+    'minWidth': 305,
+    'minHeight': 305,
   });
   modal.on('close', function () { modal = null })
   modal.loadURL(modalPath)

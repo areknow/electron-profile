@@ -1,6 +1,10 @@
+* {
+  box-sizing: border-box;
+}
 html,
 body {
-  box-sizing: border-box;
+  height: 100%;
+//  overflow: hidden;
   padding: 0;
   margin: 0;
 //  font-family: -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
@@ -80,7 +84,28 @@ input, button, textarea, :focus {
   }
 }
 
-
+ul {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+  margin: 0;
+  padding: 0;
+  li {
+    background: white;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 11px;
+    span {
+      padding: 10px;
+    }
+    &:active {
+      background: #ededf7;;
+    }
+    &:last-child {
+      border: none;
+    }
+  }
+} 
 
 
 
@@ -124,7 +149,7 @@ input, button, textarea, :focus {
   background: #f0f0f0;
   position: relative;
   .header {
-    z-index: 2;
+    z-index: 4;
     position: fixed;
     width: 100%;
     top: 0;
@@ -164,47 +189,38 @@ input, button, textarea, :focus {
     }
   }
   .section {
-    height: 657px;
+    height: 100%;
     width: 100%;
     position: absolute;
-    top: 42px;
+    padding-top: 42px;
     display: none;
+    .inner {
+      height: 100%;
+      position: relative;
+      .heading {
+        z-index: 2;
+        width: 100%;
+        top: 0;
+        background: #efefef;
+        font-size: 8px;
+        font-weight: lighter;
+        padding: 4px;
+      }
+      ul {
+        height: calc(100% - 18px)
+      }
+    }
   }
   .visible-section {
     z-index: 1;
   }
   .section-1 {
     display: block;
-    ul {
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      overflow: scroll;
-      margin: 0;
-      padding: 0;
-      li {
-        background: white;
-        border-top: 1px solid #f0f0f0;
-        font-size: 11px;
-        span {
-          padding: 10px;
-        }
-        &:active {
-          background: #ededf7;;
-        }
-      }
-    } 
   } 
   .section-2 {
     background: white;
     .inner {
-      height: 219px;
-      .heading {
-        background: #d8d8d8;
-        font-size: 8px;
-        font-weight: lighter;
-        padding: 4px;
-      }
+      height: 33.3333333%;
     }
   }
   .section-3 {
