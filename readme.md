@@ -2,6 +2,8 @@
 
 Electron version of the popular Pro-File web app. Currently in beta and only tested on macOS Sierra.
 
+![header image](https://raw.githubusercontent.com/areknow/electron-profile/master/git-header.jpg)
+
 
 ## Dev
 
