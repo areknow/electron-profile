@@ -1,7 +1,6 @@
 /* todo
 *
 * - make sure only zip archive is accepted
-* - delete tmp folder (command quit throws error on modal)
 * - errors
 * - progress states
 *
@@ -15,8 +14,6 @@
 
 (function () {
 
-  
-//  clearTempDir()
   
 
   
@@ -102,11 +99,12 @@
           console.error('Error: ', err);
         });
       }
+      //exclude the built in profiles
       $.each(res.files, function(index,value) {
-        if (value.name !== "Monitoring.profile.xml" && 
-            value.name !== "dynaTrace Self-Monitoring.profile.xml") {
+//        if (value.name !== "Monitoring.profile.xml" && 
+//            value.name !== "dynaTrace Self-Monitoring.profile.xml") {
           profilePaths.push({name:value.name,path:value.fullPath})
-        }
+//        }
       });
       if (!Array.isArray(profilePaths) || !profilePaths.length) {
         console.log('array is empty') // throw error to user 'no profiles found'
@@ -211,10 +209,6 @@
   
   
   
-  
-  
-  
-  
   //compare the measures in the profile object to all the available dashboards
   //measures coming into this function have already been cleared of being used in transactions or incidents
   function compareMeasuresToDashboards(profileObject) {
@@ -256,11 +250,13 @@
     //message the main process and send the package
     const ipc = require('electron').ipcRenderer
     ipc.send('open-modal', args)
-    showSpinner(false)
+//    showSpinner(false)
   }
   
   
-  function showSpinner(state) {
+  
+  
+//  function showSpinner(state) {
 //    if (state == true) {
 //      $('#drag-file .isSpinning').show();
 //      $('#drag-file .isNotSpinning').hide();
@@ -268,11 +264,18 @@
 //      $('#drag-file .isSpinning').hide();
 //      $('#drag-file .isNotSpinning').show();
 //    }
-  }
+//  }
   
+  
+  
+  
+  //update the text under the icon
   function updateStatus(text) {
     $('.drag-zone p').text(text);
   }
+  
+  
+  
   
   //find out where the user data is and create the temp path
   function getTempPath() {
@@ -281,27 +284,14 @@
     return tempPath;
   } 
   
+  
+  
+  
+  //message the main process and ask to delete the tmp dir
   function clearTempDir() {
     const ipc = require('electron').ipcRenderer
     ipc.send('clear-tmp')
-//    var fs = require('fs-extra')
-//    fs.removeSync(getTempPath());
-//    console.log('delete '+getTempPath())
   }
-//  
-//  function guid() {
-//    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-//      s4() + '-' + s4() + s4() + s4();
-//  }
-//  function s4() {
-//    return Math.floor((1 + Math.random()) * 0x10000)
-//      .toString(16)
-//      .substring(1);
-//  }
-//  function newProfile() {
-//    id = guid();
-//    return id
-//  }
   
   
 })();
