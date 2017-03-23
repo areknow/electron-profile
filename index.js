@@ -67,7 +67,7 @@ function createModalWindow(arg) {
     width: 400,
     height: 721,
     'minWidth': 305,
-    'minHeight': 305,
+    'minHeight': 592,
   });
   modal.on('close', function () { 
     modal = null;

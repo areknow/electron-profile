@@ -181,7 +181,7 @@ ul {
     width: 100%;
     top: 0;
     text-align: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     .button {
       cursor: pointer;
       color: white;
@@ -204,6 +204,9 @@ ul {
           fill: white;
         }
       }
+    }
+    .button-1 {
+//      border-right: 1px solid #ffffff;
     }
     .button-3 {
       background: #272727;
@@ -253,6 +256,51 @@ ul {
   }
   .section-3 {
     background: #6c6c6c;
+    padding: 10px;
+    padding-top: 50px;
+    .material {
+      border-radius: 2px;
+      padding: 10px;
+      background: white;
+      height: 200px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      .title {
+        span {
+          font-size: 20px;
+          text-align: center;
+          padding-bottom: 10px;
+          border-bottom: 1px solid #e6e6e6;
+          color: #505050
+        }
+      }
+      p {
+        font-size: 12px;
+        margin: 8px 0;
+      }
+    }
+    .buttons {
+      margin-top: 10px;
+      .button-tile {
+        border-radius: 2px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        background: #272727;
+        padding: 20px;
+        color: white;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: all .1s ease;
+        font-size: 14px;
+        svg {
+          margin-right: 10px;
+          path {
+            fill: white;
+          }
+        }
+        &:hover {
+          background: #323232;
+        }
+      }
+    }
   }
 }
 

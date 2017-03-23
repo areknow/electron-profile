@@ -119,6 +119,7 @@
     var measuresFromIncidentsAndTransactions = []
     var fileName = path.split("/")[path.split("/").length - 1];
     parser.parseString(data, function (err, result) {
+      console.log(result)
       if (err) {
         errors.forEach(function (err) {
           alert('Error: ', err);

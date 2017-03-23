@@ -1,11 +1,23 @@
 (function () {
   
+  var unusedMeasures;
+  var allMeasures;
+  var transactions;
+  var dashboards;
+  
   //populate lists
   require('electron').ipcRenderer.on('ping', (event, message) => {
+    
+    unusedMeasures = message.unusedMeasures;
+    allMeasures = message.profile.profile.allMeasures;
+    transactions = message.profile.profile.transactions;
+    dashboards = message.dashboards;
+    
     var title = document.getElementById('modal-title');
     console.log(message)
     $.each(message.profile, function(index,value) {
       title.innerHTML = value.name
+      $('.section-3 .material .title span').text(value.name)
     })
     $.each(message.unusedMeasures, function(index,value) {
       populateUnusedMeasureList(value)
@@ -47,6 +59,27 @@
   
   
   
+  //print the unused measure list to a text file 
+  function exportList(list) {
+    var output = "";
+    $.each(list, function(index,item) {
+      output += item+"\r\n";
+    })
+    var app = require('electron').remote; 
+    var dialog = app.dialog;
+    dialog.showSaveDialog(function (fileName) {
+      if (fileName === undefined){
+        console.log("You didn't save the file");
+        return;
+      } 
+      var fs = require('fs-extra');
+      fs.writeFile(fileName+".txt", output, function (err) {
+        if(err){
+          alert("An error ocurred creating the file "+ err.message)
+        }
+      });
+    });
+  }
   
   
   
@@ -58,7 +91,7 @@
   
   
   
-  //nav button functions
+  //button functions
   $('.button-1').click(function() {
     $('.section-1').fadeIn(200)
     $('.section-2').fadeOut(200)
@@ -80,27 +113,18 @@
     $('.button-1').removeClass('selected');
     $('.button-2').removeClass('selected');
   })
-
+  $('.section-3 .buttons .print-unused').click(function() {
+    exportList(unusedMeasures);
+  })
+  $('.section-3 .buttons .print-all-measures').click(function() {
+    exportList(allMeasures);
+  })
+  $('.section-3 .buttons .print-transactions').click(function() {
+    exportList(transactions);
+  })
+  $('.section-3 .buttons .print-dashboards').click(function() {
+    exportList(dashboards);
+  })
   
   
 })();
-
-
-function exportUnusedMeasureList() {
-  var app = require('electron').remote; 
-  var dialog = app.dialog;
-  dialog.showSaveDialog(function (fileName) {
-    if (fileName === undefined){
-      console.log("You didn't save the file");
-      return;
-    } 
-    var fs = require('fs-extra');
-    var content = "1st line text" +"\n" + "2nd line text";
-    fs.writeFile(fileName+".txt", content, function (err) {
-      if(err){
-        alert("An error ocurred creating the file "+ err.message)
-      }
-    });
-  });
-}
-
