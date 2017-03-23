@@ -1,19 +1,16 @@
 'use strict';
 const electron = require('electron');
 const app = electron.app;
-
+const ipc = require('electron').ipcMain
 
 // prevent window being garbage collected
 let mainWindow;
 var count = 0;
+
 function onClosed() {
   count = 0;
   // dereference the window
   mainWindow = null;
-  //delete the temporary folder (not working on build)
-  var fs = require('fs-extra')
-  fs.removeSync(app.getPath('userData')+"/tmp");
-  console.log('>> cleanup done')
 }
 
 function createMainWindow() {
@@ -47,11 +44,18 @@ app.on('ready', () => {
 
 
 
+//delete the temporary folder
+ipc.on('clear-tmp', function (event, arg) {
+  var fs = require('fs-extra')
+  fs.removeSync(app.getPath('userData')+"/tmp");
+  console.log('>> cleanup done')
+})
+
 //receive the package from the render process and create modal
-const ipc = require('electron').ipcMain
 ipc.on('open-modal', function (event, arg) {
   createModalWindow(arg);
 })
+
 //create new modals for each system profile
 function createModalWindow(arg) {
   var winMod = count*20

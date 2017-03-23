@@ -1,6 +1,6 @@
-# app 
+# Electron Pro-File 
 
-> My superb app
+Electron version of the popular Pro-File web app. Currently in beta and only tested on macOS Sierra.
 
 
 ## Dev
@@ -26,4 +26,4 @@ Builds the app for macOS, Linux, and Windows, using [electron-packager](https://
 
 ## License
 
-[MIT](https://github.com/electron/electron/blob/master/LICENSE)
+[MIT](https://github.com/areknow/electron-profile/blob/master/license)

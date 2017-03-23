@@ -18,9 +18,12 @@
   
 
   
+//  clearTempDir()
   
+
   
-  
+//  var tempDir = getTempPath();
+//  console.log(tempDir)
   
   
   //drag the archive in and decompress it
@@ -117,8 +120,7 @@
           var profileObject = parseXML(value.path)
           compareMeasuresToDashboards(profileObject)
         });
-//        clearTempDir()
-//        console.log('all done?')
+        clearTempDir()
         updateStatus('Drop Support Archive')
       }
     });
@@ -284,9 +286,27 @@
   } 
   
   function clearTempDir() {
-    var fs = require('fs-extra')
-    fs.removeSync(getTempPath());
+    const ipc = require('electron').ipcRenderer
+    ipc.send('clear-tmp')
+//    var fs = require('fs-extra')
+//    fs.removeSync(getTempPath());
+//    console.log('delete '+getTempPath())
   }
+//  
+//  function guid() {
+//    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+//      s4() + '-' + s4() + s4() + s4();
+//  }
+//  function s4() {
+//    return Math.floor((1 + Math.random()) * 0x10000)
+//      .toString(16)
+//      .substring(1);
+//  }
+//  function newProfile() {
+//    id = guid();
+//    return id
+//  }
+  
   
 })();
 
