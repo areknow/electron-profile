@@ -232,7 +232,7 @@
     }
     //message the main process and send the package
     const ipc = require('electron').ipcRenderer
-    ipc.send('asynchronous-message', args)
+    ipc.send('open-modal', args)
   }
   
 })();
@@ -244,7 +244,7 @@
 
 
 
-
+//removes duplicate entries from arrays
 Array.prototype.removeDuplicates = function () {
   return this.filter(function (item, index, self) {
     return self.indexOf(item) == index;

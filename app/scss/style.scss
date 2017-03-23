@@ -27,10 +27,10 @@ input, button, textarea, :focus {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-
-
-
+.inline {
+  display: inline-block;
+  vertical-align: middle;
+}
 .col-row {
   font-size: 0;
   .col {
@@ -121,7 +121,10 @@ input, button, textarea, :focus {
 
 
 #modal {
+  background: #f0f0f0;
+  position: relative;
   .header {
+    z-index: 2;
     position: fixed;
     width: 100%;
     top: 0;
@@ -129,49 +132,82 @@ input, button, textarea, :focus {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     .button {
       cursor: pointer;
-      color: #4e4e4e;
-      border-right: 1px solid #c8c8c8;
-      background: #e6e6e6;
+      color: white;
       padding: 10px 0;
       transition: background .2s ease;
+      font-weight: bold;
+      font-size: 10px;
+      position: relative;
+      background: #0076FF;
+      .text {
+        margin-left: 10px;
+        cursor: pointer;
+      }
       svg {
+        height: 20px;
+        width: 20px;
         cursor: pointer;
         path {
           cursor: pointer;
-          fill: #474857;
+          fill: white;
         }
       }
-      &:hover {
-        background: #dedede;
-      }
-      &:active {
-        background: #d7d7d7;
-      }
+    }
+    .button-3 {
+      background: #272727;
     }
     .no-border {
       border-right: none;
     }
     .selected {
-      svg path {
-        fill: #4242a8;
+      background: #009DFF;
+    }
+  }
+  .section {
+    height: 657px;
+    width: 100%;
+    position: absolute;
+    top: 42px;
+    display: none;
+  }
+  .visible-section {
+    z-index: 1;
+  }
+  .section-1 {
+    display: block;
+    ul {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      overflow: scroll;
+      margin: 0;
+      padding: 0;
+      li {
+        background: white;
+        border-top: 1px solid #f0f0f0;
+        font-size: 11px;
+        span {
+          padding: 10px;
+        }
+        &:active {
+          background: #ededf7;;
+        }
+      }
+    } 
+  } 
+  .section-2 {
+    background: white;
+    .inner {
+      height: 219px;
+      .heading {
+        background: #d8d8d8;
+        font-size: 8px;
+        font-weight: lighter;
+        padding: 4px;
       }
     }
   }
-  ul {
-    height: 651px;
-    overflow: scroll;
-    margin: 0;
-    margin-top: 46px;
-    padding: 0;
-    li {
-      border-top: 1px solid #f0f0f0;
-      font-size: 11px;
-      span {
-        padding: 10px;
-      }
-      &:active {
-background: #ededf7;;
-      }
-    }
-  } 
+  .section-3 {
+    background: #6c6c6c;
+  }
 }

@@ -54,7 +54,7 @@ app.on('ready', () => {
 
 //receive the package from the render process and create modal
 const ipc = require('electron').ipcMain
-ipc.on('asynchronous-message', function (event, arg) {
+ipc.on('open-modal', function (event, arg) {
   createModalWindow(arg);
 })
 //create new modals for each system profile
@@ -63,7 +63,7 @@ function createModalWindow(arg) {
   var modalPath = path.join('file://', __dirname, 'app/modal.html')
   var modal = new electron.BrowserWindow({
     width: 400,
-    height: 720,
+    height: 721,
     'minWidth': 300,
   });
   modal.on('close', function () { modal = null })

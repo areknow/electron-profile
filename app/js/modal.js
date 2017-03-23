@@ -27,8 +27,28 @@
     clipboard.writeText($(this).text())
   })
   
-  
-
+  //optimize this
+  $('.button-1').click(function() {
+    $('.section-1').fadeIn(200)
+    $('.section-2').fadeOut(200)
+    $('.section-3').fadeOut(200)
+    $('.button-1').addClass('selected');
+    $('.button-2').removeClass('selected');
+  })
+  $('.button-2').click(function() {
+    $('.section-1').fadeOut(200)
+    $('.section-2').fadeIn(200)
+    $('.section-3').fadeOut(200)
+    $('.button-1').removeClass('selected');
+    $('.button-2').addClass('selected');
+  })
+  $('.button-3').click(function() {
+    $('.section-1').fadeOut(200)
+    $('.section-2').fadeOut(200)
+    $('.section-3').fadeIn(200)
+    $('.button-1').removeClass('selected');
+    $('.button-2').removeClass('selected');
+  })
 
   
 })();
