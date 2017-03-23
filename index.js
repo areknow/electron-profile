@@ -46,9 +46,15 @@ app.on('ready', () => {
 
 //delete the temporary folder
 ipc.on('clear-tmp', function (event, arg) {
-  var fs = require('fs-extra')
-  fs.removeSync(app.getPath('userData')+"/tmp");
-  console.log('>> cleanup done')
+  var rimraf = require('rimraf');
+  rimraf(app.getPath('userData')+'/tmp', function () { 
+    console.log('>> cleanup done'); 
+  });
+//  setTimeout(function(){ //hacky
+//    var fs = require('fs-extra')
+//    fs.removeSync(app.getPath('userData')+"/tmp");
+//    console.log('>> cleanup done')
+//  }, 1000);
 })
 
 //receive the package from the render process and create modal

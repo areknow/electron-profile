@@ -2,28 +2,24 @@
 *
 * - make sure only zip archive is accepted
 * - delete tmp folder (command quit throws error on modal)
-* - create drag over color change class
 * - errors
 * - progress states
 *
 *
 */
 
-//'use strict';
+
 
 
 
 
 (function () {
-  
 
   
 //  clearTempDir()
   
 
   
-//  var tempDir = getTempPath();
-//  console.log(tempDir)
   
   
   //drag the archive in and decompress it
@@ -43,7 +39,7 @@
     for (let f of e.dataTransfer.files) {
       console.log('>> archive dragged into window')
       uncompress(f.path, getTempPath());
-      showSpinner(true)
+//      showSpinner(true)
     }
     return false;
   };
@@ -63,7 +59,7 @@
       } else {
         console.log('>> archive added via dialog')
         uncompress(fileNames[0], getTempPath());
-        showSpinner(true)
+//        showSpinner(true)
       }
     });          
   }, false);
