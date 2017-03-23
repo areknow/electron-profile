@@ -2,19 +2,14 @@
 const electron = require('electron');
 const app = electron.app;
 
-//console.log(app.getPath('userData'))
-
-//require('electron-debug')({showDevTools: true});
-
-
 
 // prevent window being garbage collected
 let mainWindow;
-
+var count = 0;
 function onClosed() {
+  count = 0;
   // dereference the window
   mainWindow = null;
-  
   //delete the temporary folder (not working on build)
   var fs = require('fs-extra')
   fs.removeSync(app.getPath('userData')+"/tmp");
@@ -27,7 +22,7 @@ function createMainWindow() {
     height: 400,
     title: "Pro-File",
     resizable: false,
-    fullscreen: false,
+    backgroundColor: '#f0f0f0'
   });
   win.setTitle(require('./package.json').name);
   win.loadURL(`file://${__dirname}/app/index.html`);
@@ -58,7 +53,6 @@ ipc.on('open-modal', function (event, arg) {
   createModalWindow(arg);
 })
 //create new modals for each system profile
-var count = 0;
 function createModalWindow(arg) {
   var winMod = count*20
   var path = require('path')
@@ -69,7 +63,10 @@ function createModalWindow(arg) {
     'minWidth': 305,
     'minHeight': 305,
   });
-  modal.on('close', function () { modal = null })
+  modal.on('close', function () { 
+    modal = null;
+    count = 0;
+  })
   modal.loadURL(modalPath)
   modal.setPosition(100+winMod, 50+winMod)
   modal.show()
@@ -82,3 +79,4 @@ function createModalWindow(arg) {
 
 
 
+//require('electron-debug')({showDevTools: true});

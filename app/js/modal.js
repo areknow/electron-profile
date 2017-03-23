@@ -2,7 +2,7 @@
 
 (function () {
   
-  
+  //populate lists
   require('electron').ipcRenderer.on('ping', (event, message) => {
     var title = document.getElementById('modal-title');
     console.log(message)
@@ -26,8 +26,6 @@
       $('#modal .section-2 .inner-3 .count').text(message.dashboards.length)
     })
   })
-  
-  
   function populateUnusedMeasureList(value) {
     return $('<li>',{class:'truncate-ellipsis'}).append(
       $('<span>', {text: value})

@@ -110,13 +110,14 @@ ul {
 
 #drag-file {
   -webkit-app-region: drag;
-  background-color: #f0f0f0;
+  background: #f0f0f0;
   position: absolute;   
   color:#454545;
   text-align: center; 
   width:100%;  
   height:100%;
   display: block;
+  transition: all .2s ease;
   .drag-zone {
     position: absolute;
     top: 0; 
@@ -130,19 +131,46 @@ ul {
     border: 10px dotted #cecece; 
     margin: auto;
     color: #626771;
+    transition: all .2s ease;
     .inner {
       padding-top: 80px;
-      i {
-        font-size: 100px;
+      svg {
+        height: 100px;
+        width: 100px;
+        path {
+          fill: #626771;
+          transition: all .2s ease;
+        }
       }
       p {
         font-size: 20px;
         padding-top: 10px;
       }
+      .isSpinning {
+        display: none;
+      }
     }
   }
+  .log {
+    font-size: 8px;
+    position: absolute;
+    bottom: 4px;
+  }
 }
-
+.active {
+  background: #8a8a8a !important;
+  .drag-zone {
+    color: #fff !important;
+    .inner {
+      svg {
+        path {
+          fill: #fff !important;
+        }
+      }
+    }
+  }
+  
+}
 
 #modal {
   background: #f0f0f0;
@@ -226,4 +254,20 @@ ul {
   .section-3 {
     background: #6c6c6c;
   }
+}
+
+
+
+
+
+
+
+
+
+@-webkit-keyframes rotating {
+  from{-webkit-transform: rotate(0deg);}
+  to {-webkit-transform: rotate(360deg);}
+}
+.rotating {
+  -webkit-animation: rotating .5s linear infinite;
 }

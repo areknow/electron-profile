@@ -4,39 +4,43 @@
 * - delete tmp folder (command quit throws error on modal)
 * - create drag over color change class
 * - errors
-*
+* - progress states
 *
 *
 */
 
 //'use strict';
 
+
+
+
 (function () {
   
-  
-//  openModal();
-  
+
   
   
-  //find out where the user data is and create the temp path
-  function getTempPath() {
-    const {app} = require('electron').remote;
-    var tempPath = app.getPath('userData')+"/tmp";
-    return tempPath;
-  } 
+  
   
   
   
   //drag the archive in and decompress it
   var holder = document.getElementById('drag-file');
-  holder.ondragover = () => { return false; };
-  holder.ondragleave = () => { return false; };
+  holder.ondragover = () => { 
+    $('#drag-file').addClass('active')
+    return false; 
+  };
+  holder.ondragleave = () => { 
+    $('#drag-file').removeClass('active')
+    return false; 
+  };
   holder.ondragend = () => { return false; };
   holder.ondrop = (e) => {
+    $('#drag-file').removeClass('active')
     e.preventDefault();
     for (let f of e.dataTransfer.files) {
-      console.log('>> archive dragged in to window')
+      console.log('>> archive dragged into window')
       uncompress(f.path, getTempPath());
+      showSpinner(true)
     }
     return false;
   };
@@ -56,6 +60,7 @@
       } else {
         console.log('>> archive added via dialog')
         uncompress(fileNames[0], getTempPath());
+        showSpinner(true)
       }
     });          
   }, false);
@@ -65,6 +70,7 @@
   //decompress the zip file
   var DecompressZip = require('decompress-zip');
   function uncompress(ZIP_FILE_PATH, DESTINATION_PATH) {
+    updateStatus('Decompressing archive..')
     var unzipper = new DecompressZip(ZIP_FILE_PATH);
     unzipper.on('progress', function (fileIndex, fileCount) {//extraction progress
 //      alert('Extracted file ' + (fileIndex + 1) + ' of ' + fileCount);
@@ -86,6 +92,7 @@
   
   //get the system profile names and locations
   function getSystemProfile() {
+    updateStatus('Analyzing profile..')
     var profilePaths = [];
     var readdirp = require('readdirp'); 
     var glob = require("glob")
@@ -110,6 +117,9 @@
           var profileObject = parseXML(value.path)
           compareMeasuresToDashboards(profileObject)
         });
+//        clearTempDir()
+//        console.log('all done?')
+        updateStatus('Drop Support Archive')
       }
     });
   } 
@@ -144,32 +154,38 @@
           }
         }
       });
-      //find all the measures that are used in incidents
+//      //find all the measures that are used in incidents
       $.each(result.dynatrace.systemprofile[0].incidentrules[0].incidentrule, function(index,value) {
         if (typeof value.conditions !== "undefined") {
           measuresFromIncidentsAndTransactions.push(value.conditions[0].condition[0].$.refmeasure);
         }
       })
-      //find all the measures used in user defined business transactions
+//      //find all the measures used in user defined business transactions
       $.each(result.dynatrace.systemprofile[0].transactions[0].transaction, function(index,value) {
         if (value.$.subscriptiontype == 'userdefined') {
           //find measures used in BT filters
-          if (typeof value.filter[0].measureref !== "undefined") {
-            $.each(value.filter[0].measureref, function(index2,value2) {
-              measuresFromIncidentsAndTransactions.push(value2.$.refmeasure)
-            })
+          if (value.filter) {
+            if (typeof value.filter[0].measureref !== "undefined") {
+              $.each(value.filter[0].measureref, function(index2,value2) {
+                measuresFromIncidentsAndTransactions.push(value2.$.refmeasure)
+              })
+            }
           }
           //find measures used in BT calculate results
-          if (typeof value.evaluate[0].measureref !== "undefined") {
-            $.each(value.evaluate[0].measureref, function(index2,value2) {
-              measuresFromIncidentsAndTransactions.push(value2.$.refmeasure)
-            })
+          if (value.evaluate) {
+            if (typeof value.evaluate[0].measureref !== "undefined") {
+              $.each(value.evaluate[0].measureref, function(index2,value2) {
+                measuresFromIncidentsAndTransactions.push(value2.$.refmeasure)
+              })
+            }
           }
           //find measures used in BT split results
-          if (typeof value.group[0].measureref !== "undefined") {
-            $.each(value.group[0].measureref, function(index2,value2) {
-              measuresFromIncidentsAndTransactions.push(value2.$.refmeasure)
-            })
+          if (value.group) {
+            if (typeof value.group[0].measureref !== "undefined") {
+              $.each(value.group[0].measureref, function(index2,value2) {
+                measuresFromIncidentsAndTransactions.push(value2.$.refmeasure)
+              })
+            }
           }
         }
         //save all business transaction names for the profileObject
@@ -208,19 +224,13 @@
     var usedMeasures = []
     var dashboards = []
     var glob = require("glob")
+    var fs = require('fs-extra');
     files = glob.sync(getTempPath()+"/Server/*/*/*/dashboards/*.xml");
-    
-    
     //save all the dashboard names to an array
     $.each(files, function(index,path) {
       var fileName = path.split("/")[path.split("/").length - 1];
       dashboards.push(fileName)
     })
-    
-    
-    
-    
-    var fs = require('fs-extra');
     //iterate over the measures from the profile object
     $.each(profileObject.profile.cleanMeasures, function(index,measure) {
       var count = 0;
@@ -229,6 +239,7 @@
         var file = fs.readFileSync(path, 'ascii');
         if (file.indexOf(measure)>-1) {
           count++
+          return false
         }
       })
       //save the measure if it was not found in any file
@@ -247,6 +258,34 @@
     //message the main process and send the package
     const ipc = require('electron').ipcRenderer
     ipc.send('open-modal', args)
+    showSpinner(false)
+  }
+  
+  
+  function showSpinner(state) {
+//    if (state == true) {
+//      $('#drag-file .isSpinning').show();
+//      $('#drag-file .isNotSpinning').hide();
+//    } else {
+//      $('#drag-file .isSpinning').hide();
+//      $('#drag-file .isNotSpinning').show();
+//    }
+  }
+  
+  function updateStatus(text) {
+    $('.drag-zone p').text(text);
+  }
+  
+  //find out where the user data is and create the temp path
+  function getTempPath() {
+    const {app} = require('electron').remote;
+    var tempPath = app.getPath('userData')+"/tmp";
+    return tempPath;
+  } 
+  
+  function clearTempDir() {
+    var fs = require('fs-extra')
+    fs.removeSync(getTempPath());
   }
   
 })();
