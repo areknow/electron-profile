@@ -5,35 +5,38 @@
   var transactions;
   var dashboards;
   
-  //populate lists
+  //message received from main process with info for each modal
   require('electron').ipcRenderer.on('ping', (event, message) => {
     
-    unusedMeasures = message.unusedMeasures;
-    allMeasures = message.profile.profile.allMeasures;
-    transactions = message.profile.profile.transactions;
-    dashboards = message.dashboards;
+    //sort and save
+    unusedMeasures = message.unusedMeasures.sort(Intl.Collator().compare);
+    allMeasures = message.profile.profile.allMeasures.sort(Intl.Collator().compare);
+    transactions = message.profile.profile.transactions.sort(Intl.Collator().compare);
+    dashboards = message.dashboards.sort(Intl.Collator().compare);
     
+    //add window title
     var title = document.getElementById('modal-title');
-    console.log(message)
+    
+    //populate lists
     $.each(message.profile, function(index,value) {
       title.innerHTML = value.name
       $('.section-3 .material .title span').text(value.name)
     })
-    $.each(message.unusedMeasures, function(index,value) {
+    $.each(unusedMeasures, function(index,value) {
       populateUnusedMeasureList(value)
-      $('#modal .section-1 .inner .count').text(message.unusedMeasures.length)
+      $('#modal .section-1 .inner .count').text(unusedMeasures.length)
     })
-    $.each(message.profile.profile.allMeasures, function(index,value) {
+    $.each(allMeasures, function(index,value) {
       populateAllMeasuresList(value)
-      $('#modal .section-2 .inner-1 .count').text(message.profile.profile.allMeasures.length)
+      $('#modal .section-2 .inner-1 .count').text(allMeasures.length)
     })
-    $.each(message.profile.profile.transactions, function(index,value) {
+    $.each(transactions, function(index,value) {
       populateTransactionsList(value)
-      $('#modal .section-2 .inner-2 .count').text(message.profile.profile.transactions.length)
+      $('#modal .section-2 .inner-2 .count').text(transactions.length)
     })
-    $.each(message.dashboards, function(index,value) {
+    $.each(dashboards, function(index,value) {
       populateDashboardsList(value)
-      $('#modal .section-2 .inner-3 .count').text(message.dashboards.length)
+      $('#modal .section-2 .inner-3 .count').text(dashboards.length)
     })
   })
   function populateUnusedMeasureList(value) {
@@ -61,7 +64,6 @@
   
   //print a list to a text file 
   function exportList(name,list) {
-    console.log(list)
     var output = "";
     $.each(list, function(index,item) {
       output += item+"\r\n";
