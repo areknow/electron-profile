@@ -19,6 +19,7 @@ function createMainWindow() {
     height: 400,
     title: "Pro-File",
     resizable: false,
+    fullscreenable: false,
     backgroundColor: '#f0f0f0',
     icon: __dirname + '/assets/icons/png/64x64.png'
   });
@@ -68,6 +69,8 @@ function createModalWindow(arg) {
     height: 721,
     'minWidth': 305,
     'minHeight': 592,
+    'maxWidth': 700,
+    fullscreenable: false,
   });
   modal.on('close', function () { 
     modal = null;

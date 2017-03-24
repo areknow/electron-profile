@@ -59,7 +59,7 @@
   
   
   
-  //print the unused measure list to a text file 
+  //print a list to a text file 
   function exportList(list) {
     var output = "";
     $.each(list, function(index,item) {
@@ -76,6 +76,8 @@
       fs.writeFile(fileName+".txt", output, function (err) {
         if(err){
           alert("An error ocurred creating the file "+ err.message)
+        } else {
+          toast('File successfully saved')
         }
       });
     });
@@ -87,8 +89,23 @@
   $('#modal').on('click', 'li', function() {
     const clipboard = require('electron').clipboard
     clipboard.writeText($(this).text())
+    toast('Item copied to clipboard')
   })
   
+  
+  //show custom notification
+  var toasting = false;
+  function toast(text) {
+    if (!toasting) {
+      toasting = true;
+      $('.toast .text').text(text)
+      $('.toast').animate({bottom: 0,}, 100, function() {
+        $('.toast').delay(2000).animate({bottom: -46,}, 100, function() {
+          toasting = false;
+        });
+      });
+    }
+  }
   
   
   //button functions
@@ -125,6 +142,5 @@
   $('.section-3 .buttons .print-dashboards').click(function() {
     exportList(dashboards);
   })
-  
   
 })();
