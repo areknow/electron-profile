@@ -1,6 +1,24 @@
 * {
   box-sizing: border-box;
 }
+
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar:horizontal {
+  display: none;
+}
+::-webkit-scrollbar-track {
+//  background: #fff;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d1d1;
+  border-radius: 2px;
+}
+
+
+
 html,
 body {
   height: 100%;
@@ -248,12 +266,13 @@ ul {
         top: 0;
         background: #efefef;
         color: grey;
-        font-size: 8px;
+        color: #424242;
+        font-size: 9px;
         font-weight: lighter;
         padding: 4px;
       }
       ul {
-        height: calc(100% - 18px)
+        height: calc(100% - 19px)
       }
     }
   }
@@ -264,7 +283,6 @@ ul {
     display: block;
   } 
   .section-2 {
-    background: white;
     .inner {
       height: 33.3333333%;
     }
