@@ -13,7 +13,8 @@
   "scripts": {
     "test": "xo",
     "start": "electron .",
-    "build": "electron-packager . --out=dist --asar --overwrite --icon=assets/icons/mac/icon.icns"
+    "build:osx": "electron-packager . --out=dist --asar --overwrite --icon=assets/icons/mac/icon.icns",
+    "build:win": "electron-packager . --out=dist --asar --overwrite --icon=assets/icons/win/icon.ico"
   },
   "keywords": [
     "electron-app",
