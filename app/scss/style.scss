@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 
@@ -272,7 +274,7 @@ ul {
         padding: 4px;
       }
       ul {
-        height: calc(100% - 19px)
+        height: calc(100% - 20px)
       }
     }
   }
@@ -324,6 +326,7 @@ ul {
         cursor: pointer;
         transition: all .1s ease;
         font-size: 14px;
+        font-weight: bold;
         svg {
           margin-right: 10px;
           path {
