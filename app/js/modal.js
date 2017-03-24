@@ -20,6 +20,7 @@
     //populate lists
     $.each(message.profile, function(index,value) {
       var profileName;
+      //check if platform is windows to use back slashes
       var os = require('os');
       if (os.platform() == 'win32') {
         profileName = value.nameWin

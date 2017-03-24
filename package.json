@@ -1,7 +1,7 @@
 {
   "name": "Pro-File",
   "productName": "Pro-File",
-  "version": "0.1.0",
+  "version": "0.1.8",
   "description": "",
   "license": "MIT",
   "repository": "user/repo",
@@ -29,6 +29,7 @@
     "os": "^0.1.1",
     "readdirp": "^2.1.0",
     "rimraf": "^2.6.1",
+    "shell": "^0.3.2",
     "xml2js": "^0.4.17"
   },
   "devDependencies": {

@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <title></title>
+    <meta name='author' content='Arnaud P. Crowther'>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body id="about">
+    <div class="icon"></div>
+    <div class="title">Pro-File</div>
+    <div class="more">Version 0.1.8</div>
+    <div class="more">Created by  <a class="about-href" target="_blank" href="http://arnaud.cr">Arnaud Crowther</a></div>
+  </body>
+  <script>window.$ = window.jQuery = require('./js/jquery-1.11.3.min.js');</script>
+  <script>
+    var shell = require('electron').shell;
+    $('.about-href').click(function(event) {
+      event.preventDefault();
+      shell.openExternal(this.href);
+    })
+  </script>
+</html>

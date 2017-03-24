@@ -289,6 +289,29 @@
     });
   };
   
+  
+  
+  //open about window
+  const aboutWindow = require('electron').remote.BrowserWindow
+  const path = require('path')
+  const newWindowBtn = document.getElementById('info-button')
+  newWindowBtn.addEventListener('click', function (event) {
+    const modalPath = path.join('file://', __dirname, 'about.html')
+    let win = new aboutWindow({ 
+      width: 280, 
+      height: 190,
+      resizable: false,
+      minimizable: false,
+      maximizable: false,
+      backgroundColor: '#f0f0f0',
+      title: '',
+    })
+    win.on('close', function () { win = null })
+    win.loadURL(modalPath)
+    win.show()
+  })
+
+  
 })();
 
   
