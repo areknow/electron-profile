@@ -60,20 +60,23 @@
   
   
   //print a list to a text file 
-  function exportList(list) {
+  function exportList(name,list) {
+    console.log(list)
     var output = "";
     $.each(list, function(index,item) {
       output += item+"\r\n";
     })
     var app = require('electron').remote; 
     var dialog = app.dialog;
-    dialog.showSaveDialog(function (fileName) {
+    dialog.showSaveDialog({
+      defaultPath: '~/'+name
+    },function (fileName) {
       if (fileName === undefined){
         console.log("You didn't save the file");
         return;
       } 
       var fs = require('fs-extra');
-      fs.writeFile(fileName+".txt", output, function (err) {
+      fs.writeFile(fileName, output, function (err) {
         if(err){
           alert("An error ocurred creating the file "+ err.message)
         } else {
@@ -131,16 +134,16 @@
     $('.button-2').removeClass('selected');
   })
   $('.section-3 .buttons .print-unused').click(function() {
-    exportList(unusedMeasures);
+    exportList('Unused Measures.txt',unusedMeasures);
   })
   $('.section-3 .buttons .print-all-measures').click(function() {
-    exportList(allMeasures);
+    exportList('All Measures.txt',allMeasures);
   })
   $('.section-3 .buttons .print-transactions').click(function() {
-    exportList(transactions);
+    exportList('Business Transactions.txt',transactions);
   })
   $('.section-3 .buttons .print-dashboards').click(function() {
-    exportList(dashboards);
+    exportList('Dashboards.txt',dashboards);
   })
   
 })();
