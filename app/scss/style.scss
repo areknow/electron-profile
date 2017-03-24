@@ -99,6 +99,7 @@ ul {
     }
     &:active {
       background: #e5f2fa;
+      background: #f7f5ff;
     }
     &:last-child {
       border: none;
@@ -131,6 +132,7 @@ ul {
     border: 10px dotted #cecece; 
     margin: auto;
     color: #626771;
+//    color: #464258;
     transition: all .2s ease;
     .inner {
       padding-top: 80px;
@@ -139,6 +141,7 @@ ul {
         width: 100px;
         path {
           fill: #626771;
+//          fill: #464258;
           transition: all .2s ease;
         }
       }
@@ -191,6 +194,7 @@ ul {
       font-size: 10px;
       position: relative;
       background: #0076FF;
+      background: #4123D7;
       .text {
         margin-left: 10px;
         cursor: pointer;
@@ -225,6 +229,7 @@ ul {
     }
     .selected {
       background: #009DFF;
+      background: #4827ee;
     }
   }
   .section {
