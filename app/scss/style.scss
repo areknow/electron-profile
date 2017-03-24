@@ -310,7 +310,7 @@ ul {
       }
       p {
         font-size: 12px;
-        margin: 8px 0;
+        margin: 7px 0;
         color: #636363;
       }
     }
@@ -327,6 +327,9 @@ ul {
         transition: all .1s ease;
         font-size: 14px;
         font-weight: bold;
+        .inline, svg, path {
+          cursor: pointer;
+        }
         svg {
           margin-right: 10px;
           path {
