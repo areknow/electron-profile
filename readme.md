@@ -20,10 +20,16 @@ $ npm install
 $ npm start
 ```
 
-### Build
+### Build macOS
 
 ```
-$ npm run build
+$ npm run build:osx
+```
+
+### Build Windows
+
+```
+$ npm run build:win
 ```
 
 Builds the app for macOS, Linux, and Windows, using [electron-packager](https://github.com/electron-userland/electron-packager).
