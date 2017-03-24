@@ -21,7 +21,7 @@ function createMainWindow() {
     resizable: false,
     fullscreenable: false,
     backgroundColor: '#f0f0f0',
-    icon: __dirname + '/assets/icons/png/64x64.png'
+    icon: __dirname + '/assets/icons/win/icon.ico'
   });
   win.setTitle(require('./package.json').name);
   win.loadURL(`file://${__dirname}/app/index.html`);
@@ -71,6 +71,7 @@ function createModalWindow(arg) {
     'minHeight': 592,
     'maxWidth': 700,
     fullscreenable: false,
+    icon: __dirname + '/assets/icons/win/icon.ico'
   });
   modal.on('close', function () { 
     modal = null;
