@@ -33,6 +33,7 @@ input, button, textarea, :focus {
 .inline {
   display: inline-block;
   vertical-align: middle;
+  vertical-align: -webkit-baseline-middle;
 }
 .col-row {
   font-size: 0;

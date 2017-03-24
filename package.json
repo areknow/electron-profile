@@ -25,6 +25,7 @@
     "electron-debug": "^1.1.0",
     "fs-extra": "^2.1.2",
     "glob": "^7.1.1",
+    "os": "^0.1.1",
     "readdirp": "^2.1.0",
     "rimraf": "^2.6.1",
     "xml2js": "^0.4.17"

@@ -118,6 +118,7 @@
     var transactions = []
     var measuresFromIncidentsAndTransactions = []
     var fileName = path.split("/")[path.split("/").length - 1];
+    var fileNameWin = path.split("\\")[path.split("\\").length - 1];
     parser.parseString(data, function (err, result) {
       console.log(result)
       if (err) {
@@ -186,6 +187,7 @@
     obj = {
       profile: {
         name: fileName,
+        nameWin: fileNameWin,
         path: path,
         cleanMeasures: cleanMeasures,
         allMeasures: deduplicatedMeasures,

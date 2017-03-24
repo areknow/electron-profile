@@ -19,8 +19,15 @@
     
     //populate lists
     $.each(message.profile, function(index,value) {
-      title.innerHTML = value.name
-      $('.section-3 .material .title span').text(value.name)
+      var title;
+      var os = require('os');
+      if (os.platform() == 'win32') {
+        title = value.nameWin
+      } else {
+        title = value.name
+      }
+      title.innerHTML = title
+      $('.section-3 .material .title span').text(title)
     })
     $.each(unusedMeasures, function(index,value) {
       populateUnusedMeasureList(value)
