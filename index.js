@@ -82,7 +82,7 @@ function createModalWindow(arg) {
   modal.show()
   //pass argument values to the new modal
   modal.webContents.on('did-finish-load', () => {
-    modal.webContents.send('ping', arg)
+    modal.webContents.send('profileObject', arg)
   })
   count++;
 }

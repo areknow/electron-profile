@@ -116,6 +116,9 @@
     var data = fs.readFileSync(path, 'ascii');
     var measures = []
     var transactions = []
+    var version;
+    var agentGroups;
+    var applications;
     var measuresFromIncidentsAndTransactions = []
     var fileName = path.split("/")[path.split("/").length - 1];
     var fileNameWin = path.split("\\")[path.split("\\").length - 1];
@@ -126,6 +129,16 @@
           alert('Error: ', err);
         });
       }
+      version = result.dynatrace.$.version;
+      //parse agent group count
+      if (result.dynatrace.systemprofile[0].agentgroups[0]) {
+        agentGroups = result.dynatrace.systemprofile[0].agentgroups[0].agentgroup.length;
+      }
+      //parse application count
+      if (result.dynatrace.systemprofile[0].uemconfiguration[0].applications[0]) {
+        applications = result.dynatrace.systemprofile[0].uemconfiguration[0].applications[0].application.length;
+      }
+      //parse regular user defined measures
       $.each(result.dynatrace.systemprofile[0].measures[0].measure, function(index,value) {
         if (value.$.userdefined == "true") {
           if (value.$.measuretype !== "TransactionMeasure"
@@ -191,7 +204,10 @@
         path: path,
         cleanMeasures: cleanMeasures,
         allMeasures: deduplicatedMeasures,
-        transactions: transactions.removeDuplicates()
+        transactions: transactions.removeDuplicates(),
+        version: version,
+        agentGroups: agentGroups,
+        applications: applications
       }
     }
     console.log('>> system profile '+obj.profile.name+' parsed and measures saved')
@@ -235,7 +251,7 @@
     console.log('>> '+unusedMeasures.length+' unused measures found')
     //create the package to send to the modal
     var args = {
-      profile: profileObject,
+      profileObject: profileObject,
       unusedMeasures: unusedMeasures,
       dashboards: dashboards
     }

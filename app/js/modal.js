@@ -6,19 +6,28 @@
   var dashboards;
   
   //message received from main process with info for each modal
-  require('electron').ipcRenderer.on('ping', (event, message) => {
+  require('electron').ipcRenderer.on('profileObject', (event, message) => {
+    console.log(message)
     
-    //sort and save
+    //sort and save incoming variables and arrays
     unusedMeasures = message.unusedMeasures.sort(Intl.Collator().compare);
-    allMeasures = message.profile.profile.allMeasures.sort(Intl.Collator().compare);
-    transactions = message.profile.profile.transactions.sort(Intl.Collator().compare);
+    allMeasures = message.profileObject.profile.allMeasures.sort(Intl.Collator().compare);
+    transactions = message.profileObject.profile.transactions.sort(Intl.Collator().compare);
     dashboards = message.dashboards.sort(Intl.Collator().compare);
+    
+    //input stats to section 3
+    $('#stat-version').text(message.profileObject.profile.version)
+    $('#stat-agentgroups').text(message.profileObject.profile.agentGroups)
+    $('#stat-applications').text(message.profileObject.profile.applications)
+    $('#stat-measures').text(allMeasures.length)
+    $('#stat-transactions').text(transactions.length)
+    $('#stat-dashboards').text(dashboards.length)
     
     //add window title
     var title = document.getElementById('modal-title');
     
     //populate lists
-    $.each(message.profile, function(index,value) {
+    $.each(message.profileObject, function(index,value) {
       var profileName;
       //check if platform is windows to use back slashes
       var os = require('os');
