@@ -21,6 +21,7 @@
     $('#stat-agentgroups').text(message.profileObject.profile.agentGroups)
     $('#stat-applications').text(message.profileObject.profile.applications)
     $('#stat-measures').text(allMeasures.length)
+    $('#stat-unusedmeasures').text(unusedMeasures.length)
     $('#stat-transactions').text(transactions.length)
     $('#stat-dashboards').text(dashboards.length)
     

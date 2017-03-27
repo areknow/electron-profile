@@ -67,8 +67,8 @@ function createModalWindow(arg) {
   var modal = new electron.BrowserWindow({
     width: 400,
     height: 721,
-    'minWidth': 305,
-    'minHeight': 592,
+    'minWidth': 370,
+    'minHeight': 642,
     'maxWidth': 700,
     fullscreenable: false,
     icon: __dirname + '/assets/icons/win/icon.ico'

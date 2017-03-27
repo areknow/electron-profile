@@ -77,7 +77,11 @@
           <div class="right"><span id="stat-applications"></div>
         </div>
         <div class="stat-tile">
-          <div class="left">Measures</div>
+          <div class="left">Unused Measures</div>
+          <div class="right"><span id="stat-unusedmeasures"></div>
+        </div>
+        <div class="stat-tile">
+          <div class="left">All Measures</div>
           <div class="right"><span id="stat-measures"></div>
         </div>
         <div class="stat-tile">
@@ -89,42 +93,39 @@
           <div class="right"><span id="stat-dashboards"></div>
         </div>
       </div>
-      <div class="buttons">
-        <div class="button-tile print-unused">
-          <div class="inline">
-            <svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="#000000" d="M6,2C4.89,2 4,2.9 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M13,3.5L18.5,9H13M8.93,12.22H16V19.29L13.88,17.17L11.05,20L8.22,17.17L11.05,14.35" /></svg>
-          </div>
-          <div class="inline">
-            SAVE UNUSED MEASURES LIST
-          </div>
+      <div class="material">
+        <div class="title truncate-ellipsis">
+          <span>Export list to file</span>
         </div>
-        <div class="button-tile print-all-measures">
-          <div class="inline">
-            <svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="#000000" d="M6,2C4.89,2 4,2.9 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M13,3.5L18.5,9H13M8.93,12.22H16V19.29L13.88,17.17L11.05,20L8.22,17.17L11.05,14.35" /></svg>
+        <div class="col-row buttons">
+          <div class="col col50 padding-right">
+            <div class="button-tile print-unused">
+              <svg viewBox="0 0 24 24"><path fill="#000000" d="M15,16H19V18H15V16M15,8H22V10H15V8M15,12H21V14H15V12M3,18A2,2 0 0,0 5,20H11A2,2 0 0,0 13,18V8H3V18M14,5H11L10,4H6L5,5H2V7H14V5Z" /></svg>
+              <div>UNUSED MEASURES</div>
+            </div>
           </div>
-          <div class="inline">
-            SAVE ALL MEASURES LIST
+          <div class="col col50 padding-left">
+            <div class="button-tile print-all-measures">
+              <svg viewBox="0 0 24 24"><path fill="#000000" d="M3,5H9V11H3V5M5,7V9H7V7H5M11,7H21V9H11V7M11,15H21V17H11V15M5,20L1.5,16.5L2.91,15.09L5,17.17L9.59,12.59L11,14L5,20Z" /></svg>
+              <div>ALL MEASURES</div>
+            </div>
           </div>
-        </div>
-        <div class="button-tile print-transactions">
-          <div class="inline">
-            <svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="#000000" d="M6,2C4.89,2 4,2.9 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M13,3.5L18.5,9H13M8.93,12.22H16V19.29L13.88,17.17L11.05,20L8.22,17.17L11.05,14.35" /></svg>
+          <div class="col col50 padding-right">
+            <div class="button-tile print-transactions">
+              <svg viewBox="0 0 24 24"><path fill="#000000" d="M3,2H21V2H21V4H20.92L14,10.92V22.91L10,18.91V10.91L3.09,4H3V2Z" /></svg>
+              <div>TRANSACTIONS</div>
+            </div>
           </div>
-          <div class="inline">
-            SAVE TRANSACTIONS LIST
-          </div>
-        </div>
-        <div class="button-tile print-dashboards">
-          <div class="inline">
-            <svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="#000000" d="M6,2C4.89,2 4,2.9 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M13,3.5L18.5,9H13M8.93,12.22H16V19.29L13.88,17.17L11.05,20L8.22,17.17L11.05,14.35" /></svg>
-          </div>
-          <div class="inline">
-            SAVE DASHBOARDS LIST
+          <div class="col col50 padding-left">
+            <div class="button-tile print-dashboards">
+              <svg viewBox="0 0 24 24"><path fill="#000000" d="M13,3V9H21V3M13,21H21V11H13M3,21H11V15H3M3,13H11V3H3V13Z" /></svg>
+              <div>DASHBOARDS</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    
+
     <div class="toast">
       <span class="text">Copied to clipboard</span>
     </div>
