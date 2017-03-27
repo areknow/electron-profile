@@ -7,7 +7,7 @@
   var dashboards;
   
   
-  //message received from main process with info for each modal
+  //message received from main process with info for this modal
   require('electron').ipcRenderer.on('profileObject', (event, message) => {
     console.log(message)
     
@@ -37,23 +37,22 @@
     
     
     //add window title and counts
-    var title = document.getElementById('modal-title');
     $('#modal .section-1 .inner .count').text(unusedMeasures.length)
     $('#modal .section-2 .inner-1 .count').text(allMeasures.length)
     $('#modal .section-2 .inner-2 .count').text(transactions.length)
     $('#modal .section-2 .inner-3 .count').text(dashboards.length)
     
-    
-    //add profile name to section3 title
+
+    //add profile name to section3 title and modal app title
     var profileName;
     //check if platform is windows to use back slashes
     var os = require('os');
     if (os.platform() == 'win32') {
-      profileName = message.nameWin
+      profileName = message.profileObject.profile.nameWin
     } else {
-      profileName = message.name
+      profileName = message.profileObject.profile.name
     }
-    title.innerHTML = profileName
+    document.getElementById('modal-title').innerHTML = profileName
     $('.section-3 .material .title #stat-profilename').text(profileName)
       
       
@@ -179,5 +178,37 @@
   $('.section-3 .buttons .print-dashboards').click(function() {
     exportList('Dashboards.txt',dashboards);
   })
+  $('.search-button').click(function() {
+    $(this).hide()
+    $('#unused-measures').css('height','calc(100% - 50px)')
+    $('.filter-wrap').show()
+  })
+  $('.search-close').click(function() {
+    $('.search-button').show()
+    $('#unused-measures').css('height','calc(100% - 20px)')
+    $('.filter-wrap').hide()
+    $("#filter-input").val('')
+    $("#filter-input").keyup()
+  })
+  
   
 })();
+
+
+//filter the main list
+function filterList() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById('filter-input');
+  filter = input.value.toUpperCase();
+  ul = $('.section-1 ul')
+  li = $('.section-1 ul li')
+  for (i = 0; i < li.length; i++) {
+    a = li[i].getElementsByTagName("span")[0];
+    if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
+  $('#modal .section-1 .inner .count').text($('.section-1 ul li:not([style*="display: none"])').length)
+}
