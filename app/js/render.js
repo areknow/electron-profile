@@ -55,6 +55,9 @@
       //extracting completed sucessfully
       unzipper.on('extract', function (log) {
         console.log('>> archive extracted to '+DESTINATION_PATH)
+        //extract server log information
+//        readServerLog()
+        //extract the system profiles
         getSystemProfile();
       });
       //error event listener
@@ -95,6 +98,7 @@
         resetApp()
       } else {
         console.log('>> '+profilePaths.length+' system profile(s) extracted')
+        
         $.each(profilePaths, function(index,value) {
           var profileObject = parseXML(value.path)
           compareMeasuresToDashboards(profileObject)
@@ -217,6 +221,23 @@
   
   
   
+  //read the server log
+  function readServerLog() {
+    console.log('here')
+    var fs = require('fs-extra');
+    var glob = require("glob")
+    files = glob.sync(getTempPath()+"/Server/*/*/*/logs/Server.0.0.log");
+    fs.readFile(files[0], 'utf-8', function (err, data) {
+      if(err){
+        alert("An error ocurred reading the file :" + err.message);
+        return;
+      }
+    });
+  }
+  
+  
+  
+  
   //compare the measures in the profile object to all the available dashboards
   //measures coming into this function have already been cleared of being used in transactions or incidents
   function compareMeasuresToDashboards(profileObject) {
@@ -249,7 +270,7 @@
     })
     console.log('>> measures compared to all dashboards, unused measures saved')
     console.log('>> '+unusedMeasures.length+' unused measures found')
-    //create the package to send to the modal
+    //create the package to send to the modal through ipc
     var args = {
       profileObject: profileObject,
       unusedMeasures: unusedMeasures,

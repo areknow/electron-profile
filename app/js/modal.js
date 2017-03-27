@@ -1,5 +1,6 @@
 (function () {
   
+  
   var unusedMeasures;
   var allMeasures;
   var transactions;
@@ -37,7 +38,7 @@
         profileName = value.name
       }
       title.innerHTML = profileName
-      $('.section-3 .material .title span').text(profileName)
+      $('.section-3 .material .title #stat-profilename').text(profileName)
     })
     $.each(unusedMeasures, function(index,value) {
       populateUnusedMeasureList(value)
