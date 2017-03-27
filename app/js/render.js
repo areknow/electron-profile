@@ -1,4 +1,7 @@
 (function () {
+  
+  
+  var serverName;
 
   //drag the archive in and decompress it
   var holder = document.getElementById('drag-file');
@@ -57,6 +60,8 @@
         console.log('>> archive extracted to '+DESTINATION_PATH)
         //extract server log information
 //        readServerLog()
+        //extract server name
+        serverName = getServerName()
         //extract the system profiles
         getSystemProfile();
       });
@@ -69,7 +74,13 @@
     }
   }
   
- 
+  
+  function getServerName() {
+    var glob = require("glob")
+    files = glob.sync(getTempPath()+"/Server/*");
+    var dirName = files[0].split("/")[files[0].split("/").length - 1];
+    return dirName;
+  }
   
   
   //get the system profile names and locations
@@ -274,7 +285,8 @@
     var args = {
       profileObject: profileObject,
       unusedMeasures: unusedMeasures,
-      dashboards: dashboards
+      dashboards: dashboards,
+      server: serverName
     }
     //message the main process and send the package
     const ipc = require('electron').ipcRenderer

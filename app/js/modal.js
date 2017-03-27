@@ -17,13 +17,20 @@
     dashboards = message.dashboards.sort(Intl.Collator().compare);
     
     //input stats to section 3
-    $('#stat-version').text(message.profileObject.profile.version)
-    $('#stat-agentgroups').text(message.profileObject.profile.agentGroups)
-    $('#stat-applications').text(message.profileObject.profile.applications)
-    $('#stat-measures').text(allMeasures.length)
-    $('#stat-unusedmeasures').text(unusedMeasures.length)
-    $('#stat-transactions').text(transactions.length)
-    $('#stat-dashboards').text(dashboards.length)
+    $('.stat-version span').text(message.profileObject.profile.version)
+    $('.stat-agentgroups span').text(message.profileObject.profile.agentGroups)
+    if (!message.profileObject.profile.agentGroups) {
+      $('.stat-agentgroups').hide()
+    }
+    $('.stat-applications span').text(message.profileObject.profile.applications)
+    if (!message.profileObject.profile.applications) {
+      $('.stat-applications').hide()
+    }
+    $('.stat-measures span').text(allMeasures.length)
+    $('.stat-unusedmeasures span').text(unusedMeasures.length)
+    $('.stat-transactions span').text(transactions.length)
+    $('.stat-dashboards span').text(dashboards.length)
+    $('.stat-server span').text(message.server)
     
     //add window title
     var title = document.getElementById('modal-title');
