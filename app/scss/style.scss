@@ -155,6 +155,7 @@ ul {
     transition: all .2s ease;
     .inner {
       padding-top: 80px;
+      position: relative;
       svg {
         height: 100px;
         width: 100px;
@@ -167,8 +168,10 @@ ul {
         font-size: 20px;
         padding-top: 10px;
       }
-      .isSpinning {
+      img {
         display: none;
+        height: 100px;
+        width: 100px;
       }
     }
   }

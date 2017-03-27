@@ -66,7 +66,7 @@
         getSystemProfile();
       });
       //error event listener
-      unzipper.on('error', function (err) { alert('Caught an error', err); });
+      unzipper.on('error', function (err) { console.log('Caught an error', err); });
       //unzip
       unzipper.extract({ path: DESTINATION_PATH });
     } else {
@@ -78,8 +78,10 @@
   function getServerName() {
     var glob = require("glob")
     files = glob.sync(getTempPath()+"/Server/*");
-    var dirName = files[0].split("/")[files[0].split("/").length - 1];
-    return dirName;
+    if (files[0]) {
+      var dirName = files[0].split("/")[files[0].split("/").length - 1];
+      return dirName;
+    }
   }
   
   
@@ -362,7 +364,3 @@
 
   
 })();
-
-  
-  
-  
