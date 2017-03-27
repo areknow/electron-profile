@@ -148,8 +148,10 @@
       }
       version = result.dynatrace.$.version;
       //parse agent group count
-      if (result.dynatrace.systemprofile[0].agentgroups[0]) {
-        agentGroups = result.dynatrace.systemprofile[0].agentgroups[0].agentgroup.length;
+      if (result.dynatrace.systemprofile[0].agentgroups) {
+        if (result.dynatrace.systemprofile[0].agentgroups[0]) {
+          agentGroups = result.dynatrace.systemprofile[0].agentgroups[0].agentgroup.length;
+        }
       }
       //parse application count
       if (result.dynatrace.systemprofile[0].uemconfiguration[0].applications[0]) {
