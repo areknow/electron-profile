@@ -6,15 +6,18 @@
   var transactions;
   var dashboards;
   
+  
   //message received from main process with info for each modal
   require('electron').ipcRenderer.on('profileObject', (event, message) => {
     console.log(message)
+    
     
     //sort and save incoming variables and arrays
     unusedMeasures = message.unusedMeasures.sort(Intl.Collator().compare);
     allMeasures = message.profileObject.profile.allMeasures.sort(Intl.Collator().compare);
     transactions = message.profileObject.profile.transactions.sort(Intl.Collator().compare);
     dashboards = message.dashboards.sort(Intl.Collator().compare);
+    
     
     //input stats to section 3
     $('.stat-version span').text(message.profileObject.profile.version)
@@ -32,56 +35,59 @@
     $('.stat-dashboards span').text(dashboards.length)
     $('.stat-server span').text(message.server)
     
-    //add window title
-    var title = document.getElementById('modal-title');
     
+    //add window title and counts
+    var title = document.getElementById('modal-title');
+    $('#modal .section-1 .inner .count').text(unusedMeasures.length)
+    $('#modal .section-2 .inner-1 .count').text(allMeasures.length)
+    $('#modal .section-2 .inner-2 .count').text(transactions.length)
+    $('#modal .section-2 .inner-3 .count').text(dashboards.length)
+    
+    
+    //add profile name to section3 title
+    var profileName;
+    //check if platform is windows to use back slashes
+    var os = require('os');
+    if (os.platform() == 'win32') {
+      profileName = message.nameWin
+    } else {
+      profileName = message.name
+    }
+    title.innerHTML = profileName
+    $('.section-3 .material .title #stat-profilename').text(profileName)
+      
+      
     //populate lists
-    $.each(message.profileObject, function(index,value) {
-      var profileName;
-      //check if platform is windows to use back slashes
-      var os = require('os');
-      if (os.platform() == 'win32') {
-        profileName = value.nameWin
-      } else {
-        profileName = value.name
-      }
-      title.innerHTML = profileName
-      $('.section-3 .material .title #stat-profilename').text(profileName)
-    })
     $.each(unusedMeasures, function(index,value) {
       populateUnusedMeasureList(value)
-      $('#modal .section-1 .inner .count').text(unusedMeasures.length)
     })
     $.each(allMeasures, function(index,value) {
       populateAllMeasuresList(value)
-      $('#modal .section-2 .inner-1 .count').text(allMeasures.length)
     })
     $.each(transactions, function(index,value) {
       populateTransactionsList(value)
-      $('#modal .section-2 .inner-2 .count').text(transactions.length)
     })
     $.each(dashboards, function(index,value) {
       populateDashboardsList(value)
-      $('#modal .section-2 .inner-3 .count').text(dashboards.length)
     })
   })
   function populateUnusedMeasureList(value) {
-    return $('<li>',{class:'truncate-ellipsis'}).append(
+    $('<li>',{class:'truncate-ellipsis'}).append(
       $('<span>', {text: value})
     ).appendTo($('#modal .section-1 ul'));
   }
   function populateAllMeasuresList(value) {
-    return $('<li>',{class:'truncate-ellipsis'}).append(
+    $('<li>',{class:'truncate-ellipsis'}).append(
       $('<span>', {text: value})
     ).appendTo($('#modal .section-2 .inner-1 ul'));
   }
   function populateTransactionsList(value) {
-    return $('<li>',{class:'truncate-ellipsis'}).append(
+    $('<li>',{class:'truncate-ellipsis'}).append(
       $('<span>', {text: value})
     ).appendTo($('#modal .section-2 .inner-2 ul'));
   }
   function populateDashboardsList(value) {
-    return $('<li>',{class:'truncate-ellipsis'}).append(
+    $('<li>',{class:'truncate-ellipsis'}).append(
       $('<span>', {text: value})
     ).appendTo($('#modal .section-2 .inner-3 ul'));
   }
