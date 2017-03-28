@@ -1,4 +1,4 @@
-# Electron Pro-File 
+# Electron ProFile 
 
 Electron version of the popular ProFile web app. Currently Beta.
 
