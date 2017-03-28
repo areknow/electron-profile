@@ -42,6 +42,7 @@ Builds the app for macOS, Linux, and Windows, using [electron-packager](https://
 
 ## Download
 [macOS](http://pro-file.site/dist/Pro-File-win32-x64.zip)
+
 [Windows 64 bit](http://pro-file.site/dist/Pro-File-win32-x64.zip)
 
 
