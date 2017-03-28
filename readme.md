@@ -11,7 +11,7 @@ Pro-File has been developed to help eliminate “measure explosion”, and to as
 
 
 ## Download
-[macOS](http://pro-file.site/dist/Pro-File.dmg)
+[macOS](http://pro-file.site/dist/Pro-File-darwin-x64.dmg)
 
 [Windows 64 bit](http://pro-file.site/dist/Pro-File-win32-x64.zip)
 
