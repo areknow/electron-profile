@@ -14,7 +14,8 @@
     "test": "xo",
     "start": "electron .",
     "build:osx": "electron-packager . --out=dist --asar --overwrite --icon=assets/icons/mac/icon.icns",
-    "build:win": "electron-packager . --out=dist --asar --overwrite --icon=assets/icons/win/icon.ico"
+    "build:win": "electron-packager . --out=dist --asar --overwrite --icon=assets/icons/win/icon.ico",
+    "build:linux": "electron-packager . --out=dist --asar --overwrite"
   },
   "keywords": [
     "electron-app",

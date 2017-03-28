@@ -32,7 +32,13 @@ $ npm run build:osx
 $ npm run build:win
 ```
 
-Builds the app for macOS, Linux, and Windows, using [electron-packager](https://github.com/electron-userland/electron-packager). Linux is untested but should work with ```build:osx```
+### Build Linux
+
+```
+$ npm run build:linux
+```
+
+Builds the app for macOS, Linux, and Windows, using [electron-packager](https://github.com/electron-userland/electron-packager). Linux is untested.
 
 ## Instructions
 1. Install/build the app with the above instructions, or grab the macOS binary here (link coming soon)

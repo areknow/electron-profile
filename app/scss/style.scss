@@ -325,7 +325,12 @@ ul {
         bottom: 0;
         top: 0;
         margin: auto;
+        cursor: pointer;
+        svg {
+          cursor: pointer;
+        }
         path {
+          cursor: pointer;
           fill: grey;
           transition: all .2s ease;
         }
