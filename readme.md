@@ -7,7 +7,7 @@ Electron version of the popular Pro-File web app. Currently Beta.
 
 ## About
 
-ProFile has been developed to help eliminate “measure explosion”, and to assist in the performance of the Dynatrace Server. The application will scan all the measures in each profile and find out if they are being used in any business transaction, incident, or dashboard. This information can then be used to clean up your system profile to reduce overhead and maintain a high performance server.
+Pro-File has been developed to help eliminate “measure explosion”, and to assist in the performance of the Dynatrace Server. The application will scan all the measures in each profile and find out if they are being used in any business transaction, incident, or dashboard. This information can then be used to clean up your system profile to reduce overhead and maintain a high performance server.
 
 
 ## Download
