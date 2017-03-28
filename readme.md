@@ -26,6 +26,15 @@ ProFile has been developed to help eliminate “measure explosion”, and to ass
 NOTE: ProFile does not modify any system profiles. That is up to the Dynatrace Admin.
 
 
+## Features
+- Drag and drop a Support Archive.
+- Double click main window to browse for Support Archive.
+- Click on a row to copy the text to your clipboard.
+- Click on the search icon in the bottom right corner to open a filter for the main unused measures list.
+- Click on the "EXTRAS" tab to see lists of Measures, Transactions, and Dashboards
+- Click on the "i" tab to see stats about your server and system profile, and buttons to export the lists to text files.
+
+
 ### Dev
 
 ```
