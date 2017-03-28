@@ -17,7 +17,7 @@ ProFile has been developed to help eliminate “measure explosion”, and to ass
 
 
 ## Instructions
-1. Install/build the app with the above instructions, or download the binaries 
+1. Install/build the app with the build instructions, or download the binaries 
 2. Drag a support archive into the main window, or double click the window to access the file dialog. An example support archive has been included in the ```/example``` dir. More information on Dynatrace AppMon support archives here: [Getting Support](https://community.dynatrace.com/community/display/DOCDT63/Getting+Support).
 3. Wait for the analysis to complete.
 4. Find the unused measures in the new modal window that appears. Each system profile detected by the application will get its own modal window.
