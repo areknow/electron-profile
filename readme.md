@@ -1,19 +1,19 @@
 # Electron Pro-File 
 
-Electron version of the popular Pro-File web app. Currently Beta.
+Electron version of the popular ProFile web app. Currently Beta.
 
 ![header image](https://raw.githubusercontent.com/areknow/electron-profile/master/git-header.jpg)
 
 
 ## About
 
-Pro-File has been developed to help eliminate “measure explosion”, and to assist in the performance of the Dynatrace Server. The application will scan all the measures in each profile and find out if they are being used in any business transaction, incident, or dashboard. This information can then be used to clean up your system profile to reduce overhead and maintain a high performance server.
+ProFile has been developed to help eliminate “measure explosion”, and to assist in the performance of the Dynatrace Server. The application will scan all the measures in each profile and find out if they are being used in any business transaction, incident, or dashboard. This information can then be used to clean up your system profile to reduce overhead and maintain a high performance server.
 
 
 ## Download
-[macOS](http://pro-file.site/dist/Pro-File-darwin-x64.dmg)
+[macOS](http://pro-file.site/dist/ProFile-darwin-x64.dmg)
 
-[Windows 64 bit](http://pro-file.site/dist/Pro-File-win32-x64.zip)
+[Windows 64 bit](http://pro-file.site/dist/ProFile-win32-x64.zip)
 
 
 ## Instructions
@@ -23,7 +23,7 @@ Pro-File has been developed to help eliminate “measure explosion”, and to as
 4. Find the unused measures in the new modal window that appears. Each system profile detected by the application will get its own modal window.
 5. Clicking on a list item will add it to your clipboard. 
 
-NOTE: Pro-File does not modify any system profiles. That is up to the Dynatrace Admin.
+NOTE: ProFile does not modify any system profiles. That is up to the Dynatrace Admin.
 
 
 ### Dev

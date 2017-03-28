@@ -17,7 +17,7 @@ function createMainWindow() {
   const win = new electron.BrowserWindow({
     width: 400,
     height: 400,
-    title: "Pro-File",
+    title: "ProFile",
     resizable: false,
     fullscreenable: false,
     backgroundColor: '#f0f0f0',
