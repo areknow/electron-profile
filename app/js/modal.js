@@ -182,6 +182,7 @@
     $(this).hide()
     $('#unused-measures').css('height','calc(100% - 50px)')
     $('.filter-wrap').show()
+    $('#filter-input').focus();
   })
   $('.search-close').click(function() {
     $('.search-button').show()
