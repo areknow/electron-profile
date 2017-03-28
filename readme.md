@@ -41,7 +41,7 @@ $ npm run build:linux
 Builds the app for macOS, Linux, and Windows, using [electron-packager](https://github.com/electron-userland/electron-packager). Linux is untested.
 
 ## Download
-[macOS](http://pro-file.site/dist/Pro-File-win32-x64.zip)
+[macOS](http://pro-file.site/dist/Pro-File.dmg)
 
 [Windows 64 bit](http://pro-file.site/dist/Pro-File-win32-x64.zip)
 
