@@ -16,6 +16,15 @@ ProFile has been developed to help eliminate “measure explosion”, and to ass
 [Windows 64 bit](http://pro-file.site/dist/ProFile-win32-x64.zip)
 
 
+## Features
+- Drag and drop a Support Archive.
+- Double click main window to browse for Support Archive.
+- Click on a row to copy the text to your clipboard.
+- Click on the search icon in the bottom right corner to open a filter for the main unused measures list.
+- Click on the "EXTRAS" tab to see lists of Measures, Transactions, and Dashboards
+- Click on the "i" tab to see stats about your server and system profile, and buttons to export the lists to text files.
+
+
 ## Instructions
 1. Install/build the app with the build instructions, or download the binaries 
 2. Drag a support archive into the main window, or double click the window to access the file dialog. An example support archive has been included in the ```/example``` dir. More information on Dynatrace AppMon support archives here: [Getting Support](https://community.dynatrace.com/community/display/DOCDT63/Getting+Support).
@@ -24,15 +33,6 @@ ProFile has been developed to help eliminate “measure explosion”, and to ass
 5. Clicking on a list item will add it to your clipboard. 
 
 NOTE: ProFile does not modify any system profiles. That is up to the Dynatrace Admin.
-
-
-## Features
-- Drag and drop a Support Archive.
-- Double click main window to browse for Support Archive.
-- Click on a row to copy the text to your clipboard.
-- Click on the search icon in the bottom right corner to open a filter for the main unused measures list.
-- Click on the "EXTRAS" tab to see lists of Measures, Transactions, and Dashboards
-- Click on the "i" tab to see stats about your server and system profile, and buttons to export the lists to text files.
 
 
 ### Dev
