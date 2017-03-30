@@ -3,6 +3,9 @@ const electron = require('electron');
 const app = electron.app;
 const ipc = require('electron').ipcMain
 
+
+//check if tmp is there, if so delete
+
 // prevent window being garbage collected
 let mainWindow;
 var count = 0;

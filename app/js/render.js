@@ -111,7 +111,6 @@
         resetApp()
       } else {
         console.log('>> '+profilePaths.length+' system profile(s) extracted')
-        
         $.each(profilePaths, function(index,value) {
           var profileObject = parseXML(value.path)
           compareMeasuresToDashboards(profileObject)
@@ -283,18 +282,51 @@
         unusedMeasures.push(measure)
       }
     })
+    //check the web dashboards
+    unusedMeasuresPlusWeb = compareMeasuresToWebDashboards(unusedMeasures)
     console.log('>> measures compared to all dashboards, unused measures saved')
-    console.log('>> '+unusedMeasures.length+' unused measures found')
+    console.log('>> '+unusedMeasuresPlusWeb.length+' unused measures found')
     //create the package to send to the modal through ipc
     var args = {
       profileObject: profileObject,
-      unusedMeasures: unusedMeasures,
+      unusedMeasures: unusedMeasuresPlusWeb,
       dashboards: dashboards,
       server: serverName
     }
     //message the main process and send the package
     const ipc = require('electron').ipcRenderer
     ipc.send('open-modal', args)
+  }
+  
+  
+  
+  
+  //compare the unused measure list to the web dashboards
+  function compareMeasuresToWebDashboards(unusedMeasures) {
+    unusedMeasuresPlusWeb = [];
+    var glob = require("glob")
+    var fs = require('fs-extra');
+    files = glob.sync(getTempPath()+"/Server/*/*/*/webdashboards/*.json");
+    if (files[0]) {
+      $.each(unusedMeasures, function(index,measure) {
+        var count = 0;
+        //iterate over the files in the web dashboard folder and search for the measure
+        $.each(files, function(index,path) {
+          var file = fs.readFileSync(path, 'ascii');
+          if (file.indexOf(measure)>-1) {
+            count++
+            return false
+          }
+        })
+        //save the measure if it was not found in any file
+        if (count == 0) {
+          unusedMeasuresPlusWeb.push(measure)
+        }
+      })
+    } else {
+      console.log('>> no web dashboards found')
+    }
+    return unusedMeasuresPlusWeb;
   }
   
   
