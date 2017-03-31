@@ -1,29 +1,43 @@
 (function () {
   
-  
   var serverName;
+  var multiProfiles = false;
 
+  
+  
+  
   //drag the archive in and decompress it
   var holder = document.getElementById('drag-file');
   holder.ondragover = () => { 
-    $('#drag-file').addClass('active')
-    return false; 
+//    if (!multiProfiles) {
+      $('#drag-file').addClass('active')
+      return false; 
+//    }
   };
   holder.ondragleave = () => { 
-    $('#drag-file').removeClass('active')
-    return false; 
+//    if (!multiProfiles) {
+      $('#drag-file').removeClass('active')
+      return false; 
+//    }
   };
   holder.ondragend = () => { return false; };
   holder.ondrop = (e) => {
-    $('#drag-file').removeClass('active')
-    e.preventDefault();
-    for (let f of e.dataTransfer.files) {
-      console.log('>> archive dragged into window')
-      uncompress(f.path, getTempPath());
+    if (!multiProfiles) {
+      $('#drag-file').removeClass('active')
+      e.preventDefault();
+      for (let f of e.dataTransfer.files) {
+        console.log('>> archive dragged into window')
+        uncompress(f.path, getTempPath());
+      }
+      return false;
+    } else {
+      $('#drag-file').removeClass('active')
+      alert('Archive is already loaded')
+      e.preventDefault();
+      return false;
     }
-    return false;
   };
-  
+    
   
   
   
@@ -58,8 +72,6 @@
       //extracting completed sucessfully
       unzipper.on('extract', function (log) {
         console.log('>> archive extracted to '+DESTINATION_PATH)
-        //extract server log information
-//        readServerLog()
         //extract server name
         serverName = getServerName()
         //extract the system profiles
@@ -75,6 +87,9 @@
   }
   
   
+  
+  
+  //get the server name from the extracted dir
   function getServerName() {
     var glob = require("glob")
     files = glob.sync(getTempPath()+"/Server/*");
@@ -85,9 +100,10 @@
   }
   
   
+  
+  
   //get the system profile names and locations
   function getSystemProfile() {
-    updateStatus('Analyzing profile..')
     var profilePaths = [];
     var readdirp = require('readdirp'); 
     var glob = require("glob")
@@ -111,14 +127,58 @@
         resetApp()
       } else {
         console.log('>> '+profilePaths.length+' system profile(s) extracted')
+        var profiles = []
         $.each(profilePaths, function(index,value) {
-          var profileObject = parseXML(value.path)
-          compareMeasuresToDashboards(profileObject)
+          profiles.push([value.name,value.path])
         });
-        resetApp()
+        if (profiles.length > 1) {
+          multiProfiles = true;
+          showPicker(true)
+          populateProfilePicker(profiles)
+        } else {
+          var profileObject = parseXML(profilePaths[0].path)
+          compareMeasuresToDashboards(profileObject)
+          resetApp()
+        }
       }
     });
   } 
+  
+  
+  
+  
+  //profile picker functions and click actions
+  function populateProfilePicker(profiles) {
+    $.each(profiles, function(index,value) {
+      $('#profiles-drop').append('<option value="'+value[1]+'">'+value[0]+'</option>')
+    })
+  }
+  $('#profile-picker').on('change', function() {
+    var selected = $(this).val();
+    if (selected == "open-all") {
+      updateStatus('Analyzing profiles..')
+      setTimeout(function(){ 
+        $('#profiles-drop option').each(function () {
+          var profile = $(this).val();
+          var profileObject = parseXML(profile)
+          compareMeasuresToDashboards(profileObject)
+        });
+        resetApp()
+      }, 500);
+    } else {
+      updateStatus('Analyzing profile..')
+      setTimeout(function(){ 
+        var profileObject = parseXML(selected)
+        compareMeasuresToDashboards(profileObject)
+        resetApp()
+      }, 500);
+    }
+    showPicker(false)
+  })
+  function resetPicker() {
+    $("#profile-picker").val($("#profile-picker option:first").val());
+    $('#profiles-drop').find('option').remove().end();
+  }
   
   
   
@@ -284,8 +344,6 @@
     })
     //check the web dashboards
     unusedMeasuresPlusWeb = compareMeasuresToWebDashboards(unusedMeasures)
-    console.log('>> measures compared to all dashboards, unused measures saved')
-    console.log('>> '+unusedMeasuresPlusWeb.length+' unused measures found')
     //create the package to send to the modal through ipc
     var args = {
       profileObject: profileObject,
@@ -296,6 +354,10 @@
     //message the main process and send the package
     const ipc = require('electron').ipcRenderer
     ipc.send('open-modal', args)
+    //logs
+    console.log('>> measures compared to all dashboards, unused measures saved')
+    console.log('>> '+unusedMeasuresPlusWeb.length+' unused measures found')
+    console.log('>> modal opened')
   }
   
   
@@ -324,6 +386,7 @@
         }
       })
     } else {
+      unusedMeasuresPlusWeb = unusedMeasures;
       console.log('>> no web dashboards found')
     }
     return unusedMeasuresPlusWeb;
@@ -361,9 +424,26 @@
   
   //reset app state
   function resetApp() {
+    resetPicker()
     clearTempDir()
     updateStatus('Drop Support Archive')
+    multiProfiles = false;
   }
+  
+  
+  
+  
+  //show or hide the profile picker view
+  function showPicker(bool) {
+    if (bool) {
+      $('.drag-zone .default').hide()
+      $('.drag-zone .picker').show()
+    } else {
+      $('.drag-zone .default').show()
+      $('.drag-zone .picker').hide()
+    }
+  }
+  
   
   
   

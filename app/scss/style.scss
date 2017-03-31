@@ -100,7 +100,7 @@ input, button, textarea, :focus {
   }
 }
 
-ul {
+ul.modal-list {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -171,11 +171,50 @@ ul {
         width: 100px;
       }
     }
-  }
-  .log {
-    font-size: 8px;
-    position: absolute;
-    bottom: 4px;
+    .default {
+//      display: none;
+    }
+    .picker {
+      display: none;
+      svg {
+        padding: 12.5px;
+      }
+      .select-wrap {
+        position: relative;
+        .skin-button {
+          font-size: 20px;
+          padding: 6px 17px;
+          border-radius: 50px;
+          background: #626771;
+          color: white;
+          width: 220px;
+          margin: auto;
+          margin-top: 25px;
+          cursor: pointer;
+          text-align: left;
+          position: relative;
+          &:after {
+            position: absolute;
+            right: 17px;
+            top: 15px;
+            content: '';
+            width: 0px;
+            height: 0px;
+            border-style: solid;
+            border-width: 5px 4px 0 4px;
+            border-color: #ffffff transparent transparent transparent;
+          }
+        }
+        select {
+          opacity: 0;
+          position: absolute;
+          top: 0;
+          left: 30px;
+          width: 220px;
+          height: 100%;
+        }
+      }
+    }
   }
   #info-button {
     position: absolute;
@@ -208,8 +247,13 @@ ul {
       }
     }
   }
-  
 }
+
+
+
+
+
+
 
 #modal {
   background: #f0f0f0;

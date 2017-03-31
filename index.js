@@ -4,7 +4,15 @@ const app = electron.app;
 const ipc = require('electron').ipcMain
 
 
+
+
 //check if tmp is there, if so delete
+var rimraf = require('rimraf');
+rimraf(app.getPath('userData')+'/tmp', function () { 
+  console.log('>> cleanup done'); 
+});
+
+
 
 // prevent window being garbage collected
 let mainWindow;
@@ -15,7 +23,6 @@ function onClosed() {
   // dereference the window
   mainWindow = null;
 }
-
 function createMainWindow() {
   const win = new electron.BrowserWindow({
     width: 400,
@@ -31,36 +38,37 @@ function createMainWindow() {
   win.on('closed', onClosed);
   return win;
 }
-
 app.on('window-all-closed', () => {
 //  if (process.platform !== 'darwin') {app.quit();}
-  app.quit();
+  var rimraf = require('rimraf');
+  rimraf(app.getPath('userData')+'/tmp', function () { 
+    console.log('>> cleanup done'); 
+    app.quit();
+  });
 });
-
 app.on('activate', () => {
   if (!mainWindow) {
     mainWindow = createMainWindow();
   }
 });
-
 app.on('ready', () => {
   mainWindow = createMainWindow();
 });
 
 
 
-//delete the temporary folder
+//delete the temporary folder from ipc message
 ipc.on('clear-tmp', function (event, arg) {
   var rimraf = require('rimraf');
   rimraf(app.getPath('userData')+'/tmp', function () { 
     console.log('>> cleanup done'); 
   });
 })
-
 //receive the package from the render process and create modal
 ipc.on('open-modal', function (event, arg) {
   createModalWindow(arg);
 })
+
 
 //create new modals for each system profile
 function createModalWindow(arg) {
