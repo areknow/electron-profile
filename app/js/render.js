@@ -9,16 +9,12 @@
   //drag the archive in and decompress it
   var holder = document.getElementById('drag-file');
   holder.ondragover = () => { 
-//    if (!multiProfiles) {
-      $('#drag-file').addClass('active')
-      return false; 
-//    }
+    $('#drag-file').addClass('active')
+    return false; 
   };
   holder.ondragleave = () => { 
-//    if (!multiProfiles) {
-      $('#drag-file').removeClass('active')
-      return false; 
-//    }
+    $('#drag-file').removeClass('active')
+    return false; 
   };
   holder.ondragend = () => { return false; };
   holder.ondrop = (e) => {
@@ -32,7 +28,7 @@
       return false;
     } else {
       $('#drag-file').removeClass('active')
-      alert('Archive is already loaded')
+      alert('Archive is already loaded.')
       e.preventDefault();
       return false;
     }
