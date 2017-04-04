@@ -113,8 +113,7 @@
       }
       //exclude the built in profiles
       $.each(res.files, function(index,value) {
-        if (value.name !== "Monitoring.profile.xml" && 
-            value.name !== "dynaTrace Self-Monitoring.profile.xml") {
+        if (value.name !== "dynaTrace Self-Monitoring.profile.xml") {
           profilePaths.push({name:value.name,path:value.fullPath})
         }
       });
